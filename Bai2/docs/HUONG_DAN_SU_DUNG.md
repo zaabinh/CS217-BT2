@@ -1,13 +1,10 @@
 # HƯỚNG DẪN SỬ DỤNG
-## Hệ cơ sở tri thức điều chế chất hóa học
-
----
 
 ## 1. Cài đặt và khởi động
 
 **Yêu cầu:** máy đã cài Python 3.10 trở lên.
 
-**Bước 1 – Cài thư viện.** Mở Terminal (hoặc Command Prompt) tại thư mục `Bai2_DieuCheHoaHoc` rồi chạy:
+**Bước 1 – Cài thư viện.** Chạy lệnh ở thư mục gốc của bài 2:
 
 ```bash
 python -m pip install -r requirements.txt
@@ -20,7 +17,7 @@ python -m streamlit run src/app.py
 ```
 
 - Trên Windows có thể bấm đúp file `run_app.bat` thay cho lệnh trên.
-- Trình duyệt sẽ tự mở trang `http://localhost:8501`. Nếu không tự mở, hãy dán địa chỉ này vào trình duyệt.
+- Trình duyệt sẽ tự mở trang `localhost` bằng trình duyệt
 
 **Bước 3 – Tắt chương trình.** Nhấn `Ctrl + C` trong cửa sổ Terminal.
 
@@ -41,10 +38,10 @@ python -m streamlit run src/app.py
 
 | Tab | Chức năng |
 |---|---|
-| 🧪 **Giải bài toán** | Nhập chất ban đầu và chất cần điều chế, chọn phương pháp, xem lời giải |
-| 📚 **Cơ sở tri thức** | Xem, tìm kiếm, thêm/sửa/xóa chất và phản ứng; kiểm tra tính nhất quán; xem sơ đồ mạng |
-| ✅ **Kiểm thử** | Chạy toàn bộ 15 test case và xem kết quả |
-| ℹ️ **Mô hình & thuật toán** | Tóm tắt mô hình tri thức và các thuật toán đã cài đặt |
+| **Giải bài toán** | Nhập chất ban đầu và chất cần điều chế, chọn phương pháp, xem lời giải |
+| **Cơ sở tri thức** | Xem, tìm kiếm, thêm/sửa/xóa chất và phản ứng; kiểm tra tính nhất quán; xem sơ đồ mạng |
+| **Kiểm thử** | Chạy toàn bộ 15 test case và xem kết quả |
+| **Mô hình & thuật toán** | Tóm tắt mô hình tri thức và các thuật toán đã cài đặt |
 
 ---
 
@@ -72,7 +69,7 @@ Ngay dưới mỗi ô nhập có các nhãn màu cho biết hệ thống đã hi
 - Nhãn **vàng**: chất cần điều chế nhận dạng được.
 - Nhãn **đỏ có dấu ✘**: dữ kiện không nhận dạng được.
 
-> **Mẹo:** Chọn một ví dụ trong ô **"Nạp nhanh một ví dụ"** rồi bấm **📥 Nạp ví dụ**. Hệ thống sẽ tự điền dữ kiện, phương pháp và điều kiện của test case đó. Ví dụ mặc định là bài toán của đề: *S, H2O, NaCl → Na2SO4, H2SO4, HCl, Na*.
+> **Mẹo:** Chọn một ví dụ trong ô **"Nạp nhanh một ví dụ"** rồi bấm **Nạp ví dụ**. Hệ thống sẽ tự điền dữ kiện, phương pháp và điều kiện của test case đó. Ví dụ mặc định là bài toán của đề: *S, H2O, NaCl → Na2SO4, H2SO4, HCl, Na*.
 
 ### 3.2. Chọn phương pháp suy diễn
 
@@ -98,7 +95,7 @@ Mỗi phản ứng có thể cần điều kiện đặc biệt: đun nóng, xú
 
 ### 3.4. Xem kết quả
 
-Bấm **🔍 Giải bài toán**. Kết quả gồm các phần sau.
+Bấm **Giải bài toán**. Kết quả gồm các phần sau.
 
 **a) Kết luận và số liệu tổng quan:**
 
@@ -122,7 +119,7 @@ Bấm **🔍 Giải bài toán**. Kết quả gồm các phần sau.
 
 ![Sơ đồ lời giải](images/04_so_do_loi_giai.png)
 
-**e) Diễn biến suy luận.** Mở mục **🔎 Diễn biến suy luận** để xem từng bước bộ suy diễn đã làm:
+**e) Diễn biến suy luận.** Mở mục **Diễn biến suy luận** để xem từng bước bộ suy diễn đã làm:
 
 - **Suy diễn lùi:** cây mục tiêu – mục tiêu con, các nhánh bị loại do vòng lặp hoặc do không có phản ứng tạo ra.
 
@@ -177,7 +174,7 @@ Hệ thống kiểm tra dữ kiện trước khi suy diễn:
 
 ### 4.1. Xem chất hóa học (M)
 
-Tab **📚 Cơ sở tri thức → Chất hóa học (M)**:
+Tab **Cơ sở tri thức → Chất hóa học (M)**:
 
 - Bảng 82 chất gồm công thức, tên, loại, trạng thái, màu, độ tan, nguyên tử khối, **khối lượng mol** (tính tự động) và số phản ứng có chất đó.
 - Có thể lọc theo loại chất hoặc tìm theo tên/công thức.
@@ -203,9 +200,9 @@ Vào tab **Cập nhật CSTT** và chọn đối tượng là **Phản ứng** h
 
 1. Chọn *(Thêm phản ứng mới)*.
 2. Nhập phương trình, ví dụ `Zn + Cl2 -> ZnCl2`. Thêm ký hiệu `↑` hoặc `↓` sau chất khí hoặc chất kết tủa nếu cần.
-3. Nếu không ghi hệ số, hoặc đánh dấu **⚖️ Tự cân bằng**, hệ thống tự tính hệ số cân bằng.
+3. Nếu không ghi hệ số, hoặc đánh dấu **Tự cân bằng**, hệ thống tự tính hệ số cân bằng.
 4. Chọn nhãn điều kiện. Trọng số được tự tính nếu đánh dấu **Tự tính trọng số**.
-5. Bấm **💾 Lưu phản ứng**.
+5. Bấm **Lưu phản ứng**.
 
 Trước khi lưu, hệ thống kiểm tra:
 
@@ -218,7 +215,7 @@ Nếu có lỗi, hệ thống báo lỗi và **không lưu**.
 
 **Sửa phản ứng:** chọn phản ứng trong danh sách, chỉnh sửa rồi bấm Lưu.
 
-**Xóa phản ứng:** chọn phản ứng rồi bấm **🗑️ Xóa**.
+**Xóa phản ứng:** chọn phản ứng rồi bấm **Xóa**.
 
 **Chất hóa học** được quản lý tương tự. Không xóa được chất đang được dùng trong phản ứng.
 
@@ -229,7 +226,7 @@ Nếu có lỗi, hệ thống báo lỗi và **không lưu**.
 
 ### 4.4. Kiểm tra tính nhất quán
 
-Bấm **🧾 Chạy kiểm tra tính nhất quán**. Kết quả chia thành ba mức: **Lỗi**, **Cảnh báo**, **Thông tin**.
+Bấm **Chạy kiểm tra tính nhất quán**. Kết quả chia thành ba mức: **Lỗi**, **Cảnh báo**, **Thông tin**.
 
 | Kiểm tra | Ý nghĩa |
 |---|---|
@@ -256,7 +253,7 @@ Tab **Sơ đồ mạng** vẽ một phần mạng tính toán theo hai cách:
 
 ## 5. Kiểm thử
 
-Tab **✅ Kiểm thử → ▶️ Chạy tất cả test case**:
+Tab **Kiểm thử → Chạy tất cả test case**:
 
 - Chạy 15 test case lưu trong `data/test_cases.json`.
 - Bảng tổng hợp cho biết mỗi test case đạt hay không.
@@ -286,19 +283,3 @@ Danh sách test case:
 
 Có thể chạy kiểm thử bằng dòng lệnh: `python -m pytest -v`. Lệnh này chạy 30 bài kiểm thử, gồm các test case trên và các kiểm thử đơn vị. Kiểm thử đơn vị có so sánh kết quả A\* với tìm kiếm vét cạn để xác nhận A\* cho lời giải tối ưu.
 
----
-
-## 6. Gợi ý kịch bản quay video demo (khoảng 5–7 phút)
-
-1. Giới thiệu giao diện và tab **Mô hình & thuật toán**.
-2. Giải bài toán của đề bằng **Suy diễn tiến** (11 bước) rồi bằng **Suy diễn tiến + lời giải tốt** (6 bước): cho xem bảng các bước, quá trình giải và sơ đồ.
-3. Chọn **So sánh cả 4 phương pháp**: chỉ ra A\* tối ưu về trọng số; mở vết suy diễn lùi.
-4. Tắt **Điện phân nóng chảy**: hệ thống báo không giải được → bấm nút bổ sung giả thiết → giải lại.
-5. Bấm **Bỏ hết** điều kiện: không giải được, xem các tập chất được gợi ý.
-6. Nhập dữ kiện sai (`H2SO, XyZ`) và nhập bằng tên tiếng Việt (`lưu huỳnh, nước, muối ăn`).
-7. Tab CSTT:
-   - Thêm phản ứng `Zn + Cl2 -> ZnCl2` (tự cân bằng).
-   - Thử thêm một phương trình chưa cân bằng để thấy báo lỗi.
-   - Chạy kiểm tra tính nhất quán.
-   - Khôi phục CSTT gốc.
-8. Tab **Kiểm thử**: chạy 15 test case, tất cả đều đạt.
