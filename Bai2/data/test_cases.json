@@ -1,0 +1,201 @@
+[
+  {
+    "id": "TC01",
+    "name": "Bài toán của đề (lời giải tốt)",
+    "description": "Từ S, H2O, NaCl điều chế Na2SO4, H2SO4, HCl, Na bằng suy diễn tiến rồi loại phản ứng thừa.",
+    "hyp": "S, H2O, NaCl",
+    "goal": "Na2SO4, H2SO4, HCl, Na",
+    "method": "good",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": true,
+      "steps": 6,
+      "cost": 18
+    }
+  },
+  {
+    "id": "TC02",
+    "name": "Bài toán của đề (lời giải tối ưu A*)",
+    "description": "Lời giải A* phải có tổng trọng số nhỏ nhất, không lớn hơn lời giải suy diễn tiến.",
+    "hyp": "S, H2O, NaCl",
+    "goal": "Na2SO4, H2SO4, HCl, Na",
+    "method": "optimal",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": true,
+      "cost": 18,
+      "not_worse_than": "forward"
+    }
+  },
+  {
+    "id": "TC03",
+    "name": "Bài toán của đề (suy diễn lùi)",
+    "description": "Suy diễn lùi từ 4 chất cần điều chế về các chất ban đầu.",
+    "hyp": "S, H2O, NaCl",
+    "goal": "Na2SO4, H2SO4, HCl, Na",
+    "method": "backward",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": true
+    }
+  },
+  {
+    "id": "TC04",
+    "name": "Ví dụ slide: S và H2O → H2SO4",
+    "description": "Ví dụ 2 slide 3.5: điện phân nước, đốt S, oxi hóa SO2, hợp nước SO3.",
+    "hyp": "S, H2O",
+    "goal": "H2SO4",
+    "method": "good",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": true,
+      "steps": 4,
+      "reactions": ["R50", "R67", "R68", "R69"]
+    }
+  },
+  {
+    "id": "TC05",
+    "name": "Điều chế clo trong phòng thí nghiệm",
+    "description": "MnO2 + HCl đặc → Cl2 (một phản ứng của đề bài).",
+    "hyp": "MnO2, HCl",
+    "goal": "Cl2",
+    "method": "optimal",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": true,
+      "steps": 1,
+      "reactions": ["R05"]
+    }
+  },
+  {
+    "id": "TC06",
+    "name": "Điều chế FeCl3 qua nhiều bước",
+    "description": "Từ Fe, HCl, MnO2: điều chế Cl2 rồi cho Cl2 tác dụng với Fe.",
+    "hyp": "Fe, HCl, MnO2",
+    "goal": "FeCl3",
+    "method": "optimal",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": true,
+      "steps": 2,
+      "cost": 5
+    }
+  },
+  {
+    "id": "TC07",
+    "name": "Không giải được → bổ sung giả thiết",
+    "description": "Từ S, H2O không thể có Na; hệ thống phải gợi ý bổ sung NaCl.",
+    "hyp": "S, H2O",
+    "goal": "Na",
+    "method": "good",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": false,
+      "suggestion": ["NaCl"]
+    }
+  },
+  {
+    "id": "TC08",
+    "name": "Không cho phép điều kiện nào",
+    "description": "Tắt hết điều kiện (không đun nóng, không điện phân, ...): bài toán của đề không giải được.",
+    "hyp": "S, H2O, NaCl",
+    "goal": "Na2SO4, H2SO4, HCl, Na",
+    "method": "good",
+    "enabled_tags": [],
+    "expect": {
+      "solvable": false,
+      "missing": ["Na2SO4", "H2SO4", "HCl", "Na"]
+    }
+  },
+  {
+    "id": "TC09",
+    "name": "Tắt điện phân nóng chảy",
+    "description": "Không có điện phân nóng chảy thì không điều chế được Na; các chất khác vẫn được.",
+    "hyp": "S, H2O, NaCl",
+    "goal": "Na2SO4, H2SO4, HCl, Na",
+    "method": "good",
+    "enabled_tags": ["t", "xt", "as", "dac", "dpdd"],
+    "expect": {
+      "solvable": false,
+      "missing": ["Na"]
+    }
+  },
+  {
+    "id": "TC10",
+    "name": "Tắt điện phân dung dịch → đổi đường đi",
+    "description": "Điều chế HCl: khi cho phép mọi điều kiện, A* chọn R07 (điện phân dung dịch NaCl) + R04; khi tắt điện phân dung dịch, hệ thống chuyển sang R23 (điện phân nóng chảy NaCl) + R04.",
+    "hyp": "S, H2O, NaCl",
+    "goal": "HCl",
+    "method": "optimal",
+    "enabled_tags": ["t", "xt", "as", "dac", "dpnc"],
+    "expect": {
+      "solvable": true,
+      "reactions": ["R23", "R04"],
+      "cost": 6
+    }
+  },
+  {
+    "id": "TC11",
+    "name": "Dữ kiện không hợp lệ",
+    "description": "Nhập công thức sai (H2SO) và chất không tồn tại (XyZ) → báo lỗi, gợi ý chất gần đúng.",
+    "hyp": "S, H2SO, XyZ",
+    "goal": "Na",
+    "method": "good",
+    "enabled_tags": null,
+    "expect": {
+      "input_error": true
+    }
+  },
+  {
+    "id": "TC12",
+    "name": "Thiếu dữ kiện",
+    "description": "Để trống chất cần điều chế → báo thiếu dữ kiện.",
+    "hyp": "S, H2O",
+    "goal": "",
+    "method": "good",
+    "enabled_tags": null,
+    "expect": {
+      "input_error": true
+    }
+  },
+  {
+    "id": "TC13",
+    "name": "Chất cần điều chế đã có sẵn",
+    "description": "NaCl → NaCl: lời giải rỗng.",
+    "hyp": "NaCl, H2O",
+    "goal": "NaCl",
+    "method": "good",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": true,
+      "steps": 0
+    }
+  },
+  {
+    "id": "TC14",
+    "name": "Nhập bằng tên gọi tiếng Việt",
+    "description": "So khớp sự kiện: 'lưu huỳnh, nước, muối ăn' → 'axit sunfuric, xút'.",
+    "hyp": "lưu huỳnh, nước, muối ăn",
+    "goal": "axit sunfuric, xút",
+    "method": "optimal",
+    "enabled_tags": null,
+    "expect": {
+      "solvable": true,
+      "hyp_formulas": ["S", "H2O", "NaCl"],
+      "goal_formulas": ["H2SO4", "NaOH"]
+    }
+  },
+  {
+    "id": "TC15",
+    "name": "Tắt điện phân dung dịch: thiếu O2",
+    "description": "Không điện phân được nước nên không có O2 → không điều chế được H2SO4 và Na2SO4.",
+    "hyp": "S, H2O, NaCl",
+    "goal": "Na2SO4, H2SO4, HCl, Na",
+    "method": "optimal",
+    "enabled_tags": ["t", "xt", "as", "dac", "dpnc"],
+    "expect": {
+      "solvable": false,
+      "missing": ["Na2SO4", "H2SO4"]
+    }
+  }
+]

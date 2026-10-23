@@ -1,0 +1,677 @@
+[
+  {
+    "Name": ["Sodium", "Natri"],
+    "Formula": "Na",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng bạc",
+    "Solubility": "Reacts with water",
+    "Atomic mass": 22.99
+  },
+  {
+    "Name": ["Potassium", "Kali"],
+    "Formula": "K",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng bạc",
+    "Solubility": "Reacts with water",
+    "Atomic mass": 39.098
+  },
+  {
+    "Name": ["Calcium", "Canxi"],
+    "Formula": "Ca",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng bạc",
+    "Solubility": "Reacts with water",
+    "Atomic mass": 40.078
+  },
+  {
+    "Name": ["Barium", "Bari"],
+    "Formula": "Ba",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng bạc",
+    "Solubility": "Reacts with water",
+    "Atomic mass": 137.327
+  },
+  {
+    "Name": ["Magnesium", "Magie"],
+    "Formula": "Mg",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng bạc",
+    "Solubility": "Insoluble",
+    "Atomic mass": 24.305
+  },
+  {
+    "Name": ["Aluminium", "Nhôm", "Aluminum"],
+    "Formula": "Al",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng bạc",
+    "Solubility": "Insoluble",
+    "Atomic mass": 26.982
+  },
+  {
+    "Name": ["Iron", "Sắt"],
+    "Formula": "Fe",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng xám",
+    "Solubility": "Insoluble",
+    "Atomic mass": 55.845
+  },
+  {
+    "Name": ["Copper", "Đồng"],
+    "Formula": "Cu",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Đỏ",
+    "Solubility": "Insoluble",
+    "Atomic mass": 63.546
+  },
+  {
+    "Name": ["Zinc", "Kẽm"],
+    "Formula": "Zn",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng xanh",
+    "Solubility": "Insoluble",
+    "Atomic mass": 65.38
+  },
+  {
+    "Name": ["Silver", "Bạc"],
+    "Formula": "Ag",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng bạc",
+    "Solubility": "Insoluble",
+    "Atomic mass": 107.868
+  },
+  {
+    "Name": ["Manganese", "Mangan"],
+    "Formula": "Mn",
+    "State": "Solid",
+    "Type": "Metal",
+    "Color": "Trắng xám",
+    "Solubility": "Insoluble",
+    "Atomic mass": 54.938
+  },
+  {
+    "Name": ["Hydrogen", "Hiđro", "Hidro", "Khí hiđro"],
+    "Formula": "H2",
+    "State": "Gas",
+    "Type": "Non-metal",
+    "Color": "Không màu",
+    "Solubility": "Insoluble",
+    "Atomic mass": 1.008
+  },
+  {
+    "Name": ["Oxygen", "Oxi", "Khí oxi"],
+    "Formula": "O2",
+    "State": "Gas",
+    "Type": "Non-metal",
+    "Color": "Không màu",
+    "Solubility": "Slightly soluble",
+    "Atomic mass": 15.999
+  },
+  {
+    "Name": ["Chlorine", "Clo", "Khí clo"],
+    "Formula": "Cl2",
+    "State": "Gas",
+    "Type": "Non-metal",
+    "Color": "Vàng lục",
+    "Solubility": "Slightly soluble",
+    "Atomic mass": 35.45
+  },
+  {
+    "Name": ["Bromine", "Brom"],
+    "Formula": "Br2",
+    "State": "Liquid",
+    "Type": "Non-metal",
+    "Color": "Nâu đỏ",
+    "Solubility": "Slightly soluble",
+    "Atomic mass": 79.904
+  },
+  {
+    "Name": ["Iodine", "Iot"],
+    "Formula": "I2",
+    "State": "Solid",
+    "Type": "Non-metal",
+    "Color": "Tím đen",
+    "Solubility": "Slightly soluble",
+    "Atomic mass": 126.904
+  },
+  {
+    "Name": ["Sulfur", "Lưu huỳnh", "Sulphur"],
+    "Formula": "S",
+    "State": "Solid",
+    "Type": "Non-metal",
+    "Color": "Vàng",
+    "Solubility": "Insoluble",
+    "Atomic mass": 32.06
+  },
+  {
+    "Name": ["Nitrogen", "Nitơ", "Khí nitơ"],
+    "Formula": "N2",
+    "State": "Gas",
+    "Type": "Non-metal",
+    "Color": "Không màu",
+    "Solubility": "Slightly soluble",
+    "Atomic mass": 14.007
+  },
+  {
+    "Name": ["Carbon", "Cacbon", "Than"],
+    "Formula": "C",
+    "State": "Solid",
+    "Type": "Non-metal",
+    "Color": "Đen",
+    "Solubility": "Insoluble",
+    "Atomic mass": 12.011
+  },
+  {
+    "Name": ["Sodium oxide", "Natri oxit"],
+    "Formula": "Na2O",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Trắng",
+    "Solubility": "Reacts with water"
+  },
+  {
+    "Name": ["Magnesium oxide", "Magie oxit"],
+    "Formula": "MgO",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Trắng",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Aluminium oxide", "Nhôm oxit", "Boxit"],
+    "Formula": "Al2O3",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Trắng",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Iron(III) oxide", "Sắt(III) oxit", "Sắt 3 oxit"],
+    "Formula": "Fe2O3",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Nâu đỏ",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Iron(II,III) oxide", "Sắt từ oxit"],
+    "Formula": "Fe3O4",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Đen",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Copper(II) oxide", "Đồng(II) oxit", "Đồng oxit"],
+    "Formula": "CuO",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Đen",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Zinc oxide", "Kẽm oxit"],
+    "Formula": "ZnO",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Trắng",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Calcium oxide", "Canxi oxit", "Vôi sống"],
+    "Formula": "CaO",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Trắng",
+    "Solubility": "Reacts with water"
+  },
+  {
+    "Name": ["Manganese dioxide", "Mangan đioxit", "Mangan dioxit"],
+    "Formula": "MnO2",
+    "State": "Solid",
+    "Type": "Oxide",
+    "Color": "Đen nâu",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Sulfur dioxide", "Lưu huỳnh đioxit", "Khí sunfurơ", "Lưu huỳnh dioxit"],
+    "Formula": "SO2",
+    "State": "Gas",
+    "Type": "Oxide",
+    "Color": "Không màu",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Sulfur trioxide", "Lưu huỳnh trioxit"],
+    "Formula": "SO3",
+    "State": "Liquid",
+    "Type": "Oxide",
+    "Color": "Không màu",
+    "Solubility": "Reacts with water"
+  },
+  {
+    "Name": ["Carbon dioxide", "Cacbon đioxit", "Khí cacbonic"],
+    "Formula": "CO2",
+    "State": "Gas",
+    "Type": "Oxide",
+    "Color": "Không màu",
+    "Solubility": "Slightly soluble"
+  },
+  {
+    "Name": ["Hydrochloric acid", "Axit clohiđric", "Hiđro clorua", "Axit clohidric", "Hidro clorua"],
+    "Formula": "HCl",
+    "State": "Gas",
+    "Type": "Acid",
+    "Color": "Không màu",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Hypochlorous acid", "Axit hipoclorơ"],
+    "Formula": "HClO",
+    "State": "Liquid",
+    "Type": "Acid",
+    "Color": "Không màu",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Chloric acid", "Axit cloric"],
+    "Formula": "HClO3",
+    "State": "Liquid",
+    "Type": "Acid",
+    "Color": "Không màu",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Sulfuric acid", "Axit sunfuric", "Axit sulfuric"],
+    "Formula": "H2SO4",
+    "State": "Liquid",
+    "Type": "Acid",
+    "Color": "Không màu",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Nitric acid", "Axit nitric"],
+    "Formula": "HNO3",
+    "State": "Liquid",
+    "Type": "Acid",
+    "Color": "Không màu",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Hydrogen sulfide", "Hiđro sunfua", "Khí hiđro sunfua", "Hidro sunfua"],
+    "Formula": "H2S",
+    "State": "Gas",
+    "Type": "Acid",
+    "Color": "Không màu",
+    "Solubility": "Slightly soluble"
+  },
+  {
+    "Name": ["Hydrobromic acid", "Axit bromhiđric", "Hiđro bromua"],
+    "Formula": "HBr",
+    "State": "Gas",
+    "Type": "Acid",
+    "Color": "Không màu",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Sodium hydroxide", "Natri hiđroxit", "Xút", "Xút ăn da", "Natri hidroxit"],
+    "Formula": "NaOH",
+    "State": "Solid",
+    "Type": "Base",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Potassium hydroxide", "Kali hiđroxit", "Kali hidroxit"],
+    "Formula": "KOH",
+    "State": "Solid",
+    "Type": "Base",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Calcium hydroxide", "Canxi hiđroxit", "Vôi tôi", "Nước vôi trong", "Canxi hidroxit"],
+    "Formula": "Ca(OH)2",
+    "State": "Solid",
+    "Type": "Base",
+    "Color": "Trắng",
+    "Solubility": "Slightly soluble"
+  },
+  {
+    "Name": ["Barium hydroxide", "Bari hiđroxit", "Bari hidroxit"],
+    "Formula": "Ba(OH)2",
+    "State": "Solid",
+    "Type": "Base",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Copper(II) hydroxide", "Đồng(II) hiđroxit", "Đồng hiđroxit"],
+    "Formula": "Cu(OH)2",
+    "State": "Solid",
+    "Type": "Base",
+    "Color": "Xanh lam",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Aluminium hydroxide", "Nhôm hiđroxit", "Nhôm hidroxit"],
+    "Formula": "Al(OH)3",
+    "State": "Solid",
+    "Type": "Amphoteric",
+    "Color": "Trắng keo",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Sodium chloride", "Natri clorua", "Muối ăn"],
+    "Formula": "NaCl",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Potassium chloride", "Kali clorua"],
+    "Formula": "KCl",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Calcium chloride", "Canxi clorua"],
+    "Formula": "CaCl2",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Magnesium chloride", "Magie clorua"],
+    "Formula": "MgCl2",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Barium chloride", "Bari clorua"],
+    "Formula": "BaCl2",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Aluminium chloride", "Nhôm clorua"],
+    "Formula": "AlCl3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Iron(II) chloride", "Sắt(II) clorua"],
+    "Formula": "FeCl2",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Lục nhạt",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Iron(III) chloride", "Sắt(III) clorua"],
+    "Formula": "FeCl3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Nâu đỏ",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Copper(II) chloride", "Đồng(II) clorua", "Đồng clorua"],
+    "Formula": "CuCl2",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Xanh lục",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Zinc chloride", "Kẽm clorua"],
+    "Formula": "ZnCl2",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Manganese(II) chloride", "Mangan(II) clorua", "Mangan clorua"],
+    "Formula": "MnCl2",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Hồng nhạt",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Silver chloride", "Bạc clorua"],
+    "Formula": "AgCl",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Potassium bromide", "Kali bromua"],
+    "Formula": "KBr",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Sodium bromide", "Natri bromua"],
+    "Formula": "NaBr",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Aluminium bromide", "Nhôm bromua"],
+    "Formula": "AlBr3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Sodium hypochlorite", "Natri hipoclorit", "Nước Gia-ven", "Nước Javen"],
+    "Formula": "NaClO",
+    "State": "Liquid",
+    "Type": "Salt",
+    "Color": "Vàng nhạt",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Potassium hypochlorite", "Kali hipoclorit"],
+    "Formula": "KClO",
+    "State": "Liquid",
+    "Type": "Salt",
+    "Color": "Không màu",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Potassium chlorate", "Kali clorat"],
+    "Formula": "KClO3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Potassium perchlorate", "Kali peclorat"],
+    "Formula": "KClO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Slightly soluble"
+  },
+  {
+    "Name": ["Calcium oxychloride", "Clorua vôi"],
+    "Formula": "CaOCl2",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Slightly soluble"
+  },
+  {
+    "Name": ["Potassium permanganate", "Kali pemanganat", "Thuốc tím"],
+    "Formula": "KMnO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Tím đen",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Potassium manganate", "Kali manganat"],
+    "Formula": "K2MnO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Lục thẫm",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Sodium bisulfate", "Natri hiđrosunfat", "Natri bisunfat", "Natri hidrosunfat"],
+    "Formula": "NaHSO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Potassium bisulfate", "Kali hiđrosunfat", "Kali bisunfat"],
+    "Formula": "KHSO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Sodium sulfate", "Natri sunfat"],
+    "Formula": "Na2SO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Potassium sulfate", "Kali sunfat"],
+    "Formula": "K2SO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Iron(II) sulfate", "Sắt(II) sunfat"],
+    "Formula": "FeSO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Lục nhạt",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Aluminium sulfate", "Nhôm sunfat"],
+    "Formula": "Al2(SO4)3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Magnesium sulfate", "Magie sunfat"],
+    "Formula": "MgSO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Copper(II) sulfate", "Đồng(II) sunfat", "Đồng sunfat"],
+    "Formula": "CuSO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng (khan)",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Zinc sulfate", "Kẽm sunfat"],
+    "Formula": "ZnSO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Barium sulfate", "Bari sunfat"],
+    "Formula": "BaSO4",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Sodium sulfite", "Natri sunfit"],
+    "Formula": "Na2SO3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Iron(II) sulfide", "Sắt(II) sunfua"],
+    "Formula": "FeS",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Đen",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Silver nitrate", "Bạc nitrat"],
+    "Formula": "AgNO3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Sodium nitrate", "Natri nitrat"],
+    "Formula": "NaNO3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Soluble"
+  },
+  {
+    "Name": ["Calcium carbonate", "Canxi cacbonat", "Đá vôi"],
+    "Formula": "CaCO3",
+    "State": "Solid",
+    "Type": "Salt",
+    "Color": "Trắng",
+    "Solubility": "Insoluble"
+  },
+  {
+    "Name": ["Water", "Nước"],
+    "Formula": "H2O",
+    "State": "Liquid",
+    "Type": "Others",
+    "Color": "Không màu",
+    "Solubility": "Universal solvent"
+  }
+]
