@@ -1,21 +1,21 @@
 """
-inference.py - Bộ suy diễn trên Mạng tính toán các phản ứng hóa học (Chương 4).
+inference.py - Bộ suy diễn trên Mạng tính toán các phản ứng hóa học
 
 Mạng suy diễn (M, F):
   * M : tập các chất
   * F : tập các phản ứng f : u(f) -> v(f)  (quan hệ KHÔNG đối xứng)
         f áp dụng được trên tập chất A  <=>  u(f) ⊆ A
-Bài toán điều chế: cho tập chất ban đầu H, tìm dãy phản ứng để có tập chất G (H -> G).
+Bài toán điều chế: cho tập chất ban đầu H, tìm dãy phản ứng để có tập chất G (H -> G)
 
-Các thuật toán (theo slide Chương 4):
-  * closure()              Tìm bao đóng Closure(H)  -> tính giải được         (4.4.1)
-  * apply_sequence()       Tính D(A) của một dãy quan hệ D                     (4.4.1)
-  * forward_chaining()     Suy diễn tiến tìm một lời giải                      (4.3.1, 4.4.1)
-  * good_solution()        Lời giải tốt: loại bỏ các phản ứng thừa             (4.4.1)
-  * analyze_solution()     Phân tích quá trình giải (chất cần tính mỗi bước)   (4.4.1)
-  * astar_optimal()        Lời giải tối ưu trên mạng suy diễn có trọng số - A* (4.4.2)
-  * backward_chaining()    Suy diễn lùi từ mục tiêu về giả thiết               (4.3.1)
-  * suggest_hypotheses()   Bổ sung giả thiết khi bài toán không giải được      (4.4.1 - BT3)
+Các thuật toán sử dụng:
+  * closure()              Tìm bao đóng Closure(H)  -> tính giải được        
+  * apply_sequence()       Tính D(A) của một dãy quan hệ D                     
+  * forward_chaining()     Suy diễn tiến tìm một lời giải                      
+  * good_solution()        Lời giải tốt: loại bỏ các phản ứng thừa             
+  * analyze_solution()     Phân tích quá trình giải (chất cần tính mỗi bước)   
+  * astar_optimal()        Lời giải tối ưu trên mạng suy diễn có trọng số - A*
+  * backward_chaining()    Suy diễn lùi từ mục tiêu về giả thiết               
+  * suggest_hypotheses()   Bổ sung giả thiết khi bài toán không giải được 
 """
 from __future__ import annotations
 
@@ -81,7 +81,7 @@ def produces_new(r: Reaction, known: set | frozenset) -> bool:
 
 
 def closure(H, rules: list[Reaction]) -> tuple[frozenset, list[Reaction]]:
-    """Thuật toán tìm bao đóng (slide 4.4.1, trường hợp quan hệ không đối xứng).
+    """Thuật toán tìm bao đóng (trường hợp quan hệ không đối xứng).
 
     B <- A ; lặp: với mỗi f chưa xét, nếu u(f) ⊆ B thì B <- B ∪ M(f), loại f.
     Trả về (Closure(H), các luật đã dùng theo thứ tự).
@@ -102,7 +102,7 @@ def closure(H, rules: list[Reaction]) -> tuple[frozenset, list[Reaction]]:
 
 
 def apply_sequence(H, seq: list[Reaction]) -> frozenset:
-    """Tính D(A): lần lượt áp dụng các quan hệ áp dụng được (slide 4.4.1)."""
+    """Tính D(A): lần lượt áp dụng các quan hệ áp dụng được"""
     A = set(H)
     for f in seq:
         if applicable(f, A):
@@ -111,7 +111,7 @@ def apply_sequence(H, seq: list[Reaction]) -> frozenset:
 
 
 def is_solution(H, G, seq: list[Reaction]) -> bool:
-    """D là lời giải của H -> G khi D áp dụng được trên H và D(H) ⊇ G."""
+    """D là lời giải của H -> G khi D áp dụng được trên H và D(H) ⊇ G"""
     A = set(H)
     for f in seq:
         if not applicable(f, A):
@@ -131,7 +131,7 @@ def build_steps(H, seq: list[Reaction]) -> list[Step]:
 
 # --------------------------------------------------------------------------- suy diễn tiến
 def forward_chaining(H, G, rules: list[Reaction], trace: list[str] | None = None):
-    """Suy diễn tiến (slide 4.3.1):
+    """Suy diễn tiến:
         Solution = []; Known = H
         while G ⊄ Known:
             tìm luật r: u(r) ⊆ Known và v(r) ⊄ Known
@@ -156,7 +156,7 @@ def forward_chaining(H, G, rules: list[Reaction], trace: list[str] | None = None
 
 
 def good_solution(H, G, seq: list[Reaction], trace: list[str] | None = None) -> list[Reaction]:
-    """Lời giải tốt (slide 4.4.1): for i = m downto 1: nếu D \\ {f_i} vẫn là lời giải thì bỏ f_i."""
+    """Lời giải tốt: for i = m downto 1: nếu D \\ {f_i} vẫn là lời giải thì bỏ f_i"""
     trace = trace if trace is not None else []
     D = list(seq)
     for i in range(len(D) - 1, -1, -1):
@@ -168,7 +168,7 @@ def good_solution(H, G, seq: list[Reaction], trace: list[str] | None = None) -> 
 
 
 def analyze_solution(H, G, steps: list[Step]) -> list[Step]:
-    """Phân tích quá trình giải (định lý slide 4.4.1).
+    """Phân tích quá trình giải
 
     Đi ngược từ B_m = G: ở bước i, B'_i = (v(f_i) ∩ B_i) \\ A_{i-1} là các chất thật sự
     cần tính; B_{i-1} = (B_i \\ B'_i) ∪ u(f_i). Các sản phẩm còn lại là sản phẩm phụ.
@@ -185,7 +185,7 @@ def analyze_solution(H, G, steps: list[Step]) -> list[Step]:
 # --------------------------------------------------------------------------- A* (lời giải tối ưu)
 def relevant_rules(H, G, rules: list[Reaction]) -> list[Reaction]:
     """Thu gọn không gian tìm kiếm: chỉ giữ phản ứng áp dụng được trong Closure(H)
-    và có đóng góp (trực tiếp hoặc gián tiếp) vào việc sinh ra G."""
+    và có đóng góp (trực tiếp hoặc gián tiếp) vào việc sinh ra G"""
     clo, usable = closure(H, rules)
     need, keep, changed = set(G), set(), True
     while changed:
@@ -200,14 +200,12 @@ def relevant_rules(H, G, rules: list[Reaction]) -> list[Reaction]:
 
 def astar_optimal(H, G, rules: list[Reaction], trace: list[str] | None = None,
                   max_expand: int = 200_000):
-    """Tìm lời giải tối ưu trên mạng suy diễn có trọng số (A, D, w) bằng A* (slide 4.4.2).
+    """Tìm lời giải tối ưu trên mạng suy diễn có trọng số (A, D, w) bằng A*
 
     * Đỉnh  : tập chất đã biết N;  cạnh r : N -> N ∪ v(r), độ dài w(r)
     * Đích  : đỉnh chứa G
     * g(N)  : tổng trọng số từ H đến N
-    * h(N)  : theo slide h(N) = min{ w(r) | u(r) ⊆ N }; ở đây lấy max với
-              max_{x ∈ G\\N} min{ w(r) | x ∈ v(r) } - cả hai đều không vượt quá
-              chi phí thật nên A* vẫn cho lời giải tối ưu.
+    * h(N)  : h(N) = min{ w(r) | u(r) ⊆ N }; ở đây lấy max với max_{x ∈ G\\N} min{ w(r) | x ∈ v(r) } - cả hai đều không vượt quá chi phí thật nên A* vẫn cho lời giải tối ưu.
     """
     trace = trace if trace is not None else []
     G = frozenset(G)
@@ -277,7 +275,7 @@ def astar_optimal(H, G, rules: list[Reaction], trace: list[str] | None = None,
 # --------------------------------------------------------------------------- suy diễn lùi
 def backward_chaining(H, G, rules: list[Reaction], trace: list[str] | None = None,
                       max_depth: int = 25, prune: bool = True):
-    """Suy diễn lùi (slide 4.3.1): xuất phát từ chất cần điều chế, thay nó bằng các chất
+    """Suy diễn lùi: xuất phát từ chất cần điều chế, thay nó bằng các chất
     tham gia của một phản ứng sinh ra nó; lặp lại đến khi mọi chất đều thuộc H.
 
     Ưu tiên thử phản ứng có trọng số nhỏ (heuristic); chống vòng lặp bằng tập các
@@ -288,7 +286,7 @@ def backward_chaining(H, G, rules: list[Reaction], trace: list[str] | None = Non
     if prune:
         # Heuristic cắt nhánh: chỉ xét phản ứng áp dụng được trong Closure(H)
         _, rules = closure(H, rules)
-        trace.append(f"Heuristic: chỉ xét {len(rules)} phản ứng áp dụng được trong Closure(H).")
+        trace.append(f"Heuristic: chỉ xét {len(rules)} phản ứng áp dụng được trong Closure(H)")
     producers: dict[str, list[Reaction]] = {}
     for r in rules:
         for x in r.goal:
@@ -302,7 +300,7 @@ def backward_chaining(H, G, rules: list[Reaction], trace: list[str] | None = Non
     counter = {"calls": 0}
 
     def prove(x: str, stack: tuple, depth: int) -> tuple[bool, bool]:
-        """Trả về (thành công, có cắt vòng lặp trong nhánh)."""
+        """Trả về (thành công, có cắt vòng lặp trong nhánh)"""
         counter["calls"] += 1
         ind = "    " * depth
         if x in proved:

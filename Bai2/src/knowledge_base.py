@@ -1,18 +1,14 @@
 """
-knowledge_base.py - Cơ sở tri thức (CSTT) theo mô hình Mạng tính toán mở rộng
-                    (M_Frame, F_Conditions) - Chương 3.5.
+knowledge_base.py - Cơ sở tri thức (CSTT) theo mô hình Mạng tính toán mở rộng (M_Frame, F_Conditions)
 
-  * M_Frame      : tập các chất hóa học, mỗi chất là một Frame
-                   (Name, Formula, State, Type, Color, Solubility, Atomic mass)
+  * M_Frame      : tập các chất hóa học, mỗi chất là một Frame (Name, Formula, State, Type, Color, Solubility, Atomic mass)
                    -> lưu trong data/chemicals.json
-  * F_Conditions : tập các phản ứng f : u(f) -> v(f) kèm điều kiện, tính chất
-                   chất tạo thành, hệ số cân bằng và trọng số (chi phí)
+  * F_Conditions : tập các phản ứng f : u(f) -> v(f) kèm điều kiện, tính chất, chất tạo thành, hệ số cân bằng và trọng số (chi phí)
                    -> lưu trong data/reactions.json
 
-Module này cũng cài đặt các tác vụ cơ bản trên CSTT (Chương 3.4):
+Module này cũng cài đặt các tác vụ cơ bản trên CSTT:
   * Cập nhật CSTT: thêm / sửa / xóa chất và phản ứng, khôi phục bản gốc
-  * Kiểm tra tính nhất quán: cân bằng nguyên tố, chất chưa khai báo,
-    luật trùng, luật thừa, phát hiện vòng lặp, ...
+  * Kiểm tra tính nhất quán: cân bằng nguyên tố, chất chưa khai báo, luật trùng, luật thừa, phát hiện vòng lặp, ...
 """
 from __future__ import annotations
 
@@ -274,7 +270,7 @@ class KnowledgeBase:
                 errs.append(f"Trùng với phản ứng {other.id} đã có (luật trùng).")
         return errs
 
-    # ----- cập nhật CSTT (Chương 3.4.1)
+    # ----- cập nhật CSTT
     def add_reaction(self, r: Reaction) -> list[str]:
         errs = self.validate_reaction(r)
         if not errs:
@@ -336,7 +332,7 @@ class KnowledgeBase:
         self.save()
         return []
 
-    # ----- kiểm tra tính nhất quán (Chương 3.4.2)
+    # ----- kiểm tra tính nhất quán
     @staticmethod
     def _closure(start: set, rules: list[Reaction]) -> set:
         known, changed = set(start), True

@@ -1,5 +1,5 @@
 """
-Kiểm thử tự động. Chạy:  python -m pytest -v   (tại thư mục gốc của project)
+Kiểm thử tự động. Chạy:  python -m pytest -v 
 """
 import sys
 from pathlib import Path

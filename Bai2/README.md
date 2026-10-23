@@ -26,7 +26,7 @@ Chạy lệnh sau tại **thư mục gốc của bài 2**, để chương trình
 python -m streamlit run src/app.py
 ```
 
-Trình duyệt sẽ tự mở địa chỉ `http://localhost:8501`. Trên Windows có thể bấm đúp file `run_app.bat`. Trên macOS/Linux thì chạy `./run_app.sh`.
+Trình duyệt sẽ tự mở địa chỉ `localhost`. Trên Windows có thể bấm đúp file `run_app.bat`. Trên macOS/Linux thì chạy `./run_app.sh`.
 
 Cách dùng chi tiết xem trong **[docs/HUONG_DAN_SU_DUNG.md](docs/HUONG_DAN_SU_DUNG.md)**.
 

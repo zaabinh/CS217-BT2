@@ -33,7 +33,7 @@ def _header(rankdir="LR") -> list[str]:
 
 
 def solution_dot(H, G, steps, rankdir: str = "TB") -> str:
-    """Sơ đồ của một lời giải (danh sách Step đã phân tích)."""
+    """Sơ đồ của một lời giải (danh sách Step đã phân tích)"""
     H, G = set(H), set(G)
     needed = set().union(*[s.needed for s in steps]) if steps else set()
     used_inputs = set().union(*[s.reaction.hyp for s in steps]) if steps else set()
@@ -68,7 +68,7 @@ def solution_dot(H, G, steps, rankdir: str = "TB") -> str:
 
 
 def network_dot(kb: KnowledgeBase, reactions: list[Reaction], highlight: set | None = None) -> str:
-    """Sơ đồ một phần mạng tính toán của CSTT (các phản ứng được chọn)."""
+    """Sơ đồ một phần mạng tính toán của CSTT (các phản ứng được chọn)"""
     highlight = highlight or set()
     lines = _header()
     subs = set()

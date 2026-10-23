@@ -1,5 +1,5 @@
 """
-matcher.py - So khớp sự kiện (Chương 3.4.3) và xử lý dữ kiện đầu vào.
+matcher.py - So khớp sự kiện và xử lý dữ kiện đầu vào.
 
 Người dùng có thể nhập chất theo nhiều cách:
   * Công thức chính xác     : H2SO4, NaCl            -> so khớp chính xác
@@ -8,8 +8,7 @@ Người dùng có thể nhập chất theo nhiều cách:
   * Tên tiếng Việt / Anh    : axit sunfuric, muối ăn, sulfuric acid  -> so khớp ngữ nghĩa
   * Tên không dấu           : axit sunfuric, muoi an -> chuẩn hóa bỏ dấu
 
-Dữ kiện không hợp lệ (ký tự lạ, ký hiệu nguyên tố sai, chất chưa có trong CSTT)
-được báo lỗi kèm gợi ý các chất gần giống nhất.
+Dữ kiện không hợp lệ (ký tự lạ, ký hiệu nguyên tố sai, chất chưa có trong CSTT) được báo lỗi kèm gợi ý các chất gần giống nhất.
 """
 from __future__ import annotations
 

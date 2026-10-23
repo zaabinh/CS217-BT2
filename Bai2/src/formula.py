@@ -14,7 +14,7 @@ _SUBSCRIPTS = str.maketrans("₀₁₂₃₄₅₆₇₈₉", "0123456789")
 
 _TOKEN = re.compile(r"([A-Z][a-z]?|\(|\)|\[|\]|\d+)")
 
-# Bảng ký hiệu nguyên tố hợp lệ 
+# Bảng ký hiệu nguyên tố hợp lệ
 ELEMENT_SYMBOLS = {
     "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si",
     "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni",
