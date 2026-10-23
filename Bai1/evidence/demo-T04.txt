@@ -1,0 +1,26 @@
+python -m triangle_knowledge_base --facts a=3,b=4,p=6 --goals c,S,hc
+Exit code: 0
+
+SOLVED
+All goals derived and facts passed validation
+Facts:
+  a = 3
+  b = 4
+  p = 6
+  c = 5
+  A = 36.86989765
+  B = 53.13010235
+  C = 90
+  S = 6
+  ha = 4
+  hb = 3
+  hc = 2.4
+Inference trace:
+  1. R07 [Q02] c = 2*p - a - b; inputs: p=6, a=3, b=4 -> c=5
+  2. R15 [Q04] A = acos_deg((b^2 + c^2 - a^2)/(2*b*c)); inputs: a=3, b=4, c=5 -> A=36.86989765
+  3. R17 [Q04] B = acos_deg((a^2 + c^2 - b^2)/(2*a*c)); inputs: a=3, b=4, c=5 -> B=53.13010235
+  4. R19 [Q04] C = acos_deg((a^2 + b^2 - c^2)/(2*a*b)); inputs: a=3, b=4, c=5 -> C=90
+  5. R20 [Q05] S = sqrt(p*(p-a)*(p-b)*(p-c)); inputs: p=6, a=3, b=4, c=5 -> S=6
+  6. R22 [Q06] ha = 2*S/a; inputs: S=6, a=3 -> ha=4
+  7. R25 [Q06] hb = 2*S/b; inputs: S=6, b=4 -> hb=3
+  8. R28 [Q06] hc = 2*S/c; inputs: S=6, c=5 -> hc=2.4
