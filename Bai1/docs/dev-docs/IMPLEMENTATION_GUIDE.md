@@ -1,8 +1,8 @@
 # IMPLEMENTATION GUIDE — Mạng tính toán biểu diễn tri thức tam giác
 
-> **Bài 1 · Môn Các hệ cơ sở tri thức**  
-> **Vai trò:** Tài liệu triển khai dành cho người phụ trách lập trình, đối chiếu với người viết báo cáo.  
-> **Phạm vi:** Phiên bản cơ sở gồm **13 biến, 10 nhóm quan hệ, 46 luật có hướng**, suy diễn tiến và kiểm thử.  
+> **Bài 1 · Môn Các hệ cơ sở tri thức**<br>
+> **Vai trò:** Tài liệu triển khai dành cho người phụ trách lập trình, đối chiếu với người viết báo cáo.<br>
+> **Phạm vi:** Phiên bản cơ sở gồm **13 biến, 10 nhóm quan hệ, 46 luật có hướng**, suy diễn tiến và kiểm thử.<br>
 > **Nguyên tắc:** Tài liệu chỉ mô tả yêu cầu, thiết kế, thứ tự thực hiện, kết quả mong đợi và tiêu chí nghiệm thu; **không chứa mã nguồn hay mã giả**.
 
 > **Ghi nhận triển khai:** Bản mã hiện tại dùng Python 3.11+, Pydantic v2, kiến trúc phân lớp trong `triangle_knowledge_base/app`, CLI và FastAPI dùng chung `SolverService`. Xem [README](../../README.md), [báo cáo bàn giao](DELIVERY_REPORT.md) và [log kiểm thử thực tế](../../evidence/pytest-results.txt). Checklist bên dưới là đặc tả gốc; kết quả nghiệm thu được ghi riêng trong báo cáo bàn giao. PDF hiện có 15 trang: thuật toán trang 7–8, thiết kế trang 9, T01–T12 trang 11, Phụ lục A trang 13–14 và Phụ lục B trang 15.

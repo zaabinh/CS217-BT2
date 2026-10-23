@@ -1,0 +1,58 @@
+[ĐẠT ] TC01 - Bài toán của đề (lời giải tốt)
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+      ✔ Số bước = 6 (thực tế 6)
+      ✔ Tổng trọng số = 18 (thực tế 18)
+[ĐẠT ] TC02 - Bài toán của đề (lời giải tối ưu A*)
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+      ✔ Tổng trọng số = 18 (thực tế 18)
+      ✔ Trọng số ≤ Suy diễn tiến (18 ≤ 27)
+[ĐẠT ] TC03 - Bài toán của đề (suy diễn lùi)
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+[ĐẠT ] TC04 - Ví dụ slide: S và H2O → H2SO4
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+      ✔ Số bước = 4 (thực tế 4)
+      ✔ Các phản ứng = ['R50', 'R67', 'R68', 'R69'] (thực tế ['R50', 'R67', 'R68', 'R69'])
+[ĐẠT ] TC05 - Điều chế clo trong phòng thí nghiệm
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+      ✔ Số bước = 1 (thực tế 1)
+      ✔ Các phản ứng = ['R05'] (thực tế ['R05'])
+[ĐẠT ] TC06 - Điều chế FeCl3 qua nhiều bước
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+      ✔ Số bước = 2 (thực tế 2)
+      ✔ Tổng trọng số = 5 (thực tế 5)
+[ĐẠT ] TC07 - Không giải được → bổ sung giả thiết
+      ✔ Giải được = False
+      ✔ Có gợi ý bổ sung ['NaCl'] (thực tế [['NaCl'], ['Na']])
+[ĐẠT ] TC08 - Không cho phép điều kiện nào
+      ✔ Giải được = False
+      ✔ Chất không điều chế được = ['Na2SO4', 'H2SO4', 'HCl', 'Na'] (thực tế ['Na2SO4', 'H2SO4', 'HCl', 'Na'])
+[ĐẠT ] TC09 - Tắt điện phân nóng chảy
+      ✔ Giải được = False
+      ✔ Chất không điều chế được = ['Na'] (thực tế ['Na'])
+[ĐẠT ] TC10 - Tắt điện phân dung dịch → đổi đường đi
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+      ✔ Tổng trọng số = 6 (thực tế 6)
+      ✔ Các phản ứng = ['R23', 'R04'] (thực tế ['R23', 'R04'])
+[ĐẠT ] TC11 - Dữ kiện không hợp lệ
+      ✔ Phát hiện dữ kiện thiếu / không hợp lệ
+[ĐẠT ] TC12 - Thiếu dữ kiện
+      ✔ Phát hiện dữ kiện thiếu / không hợp lệ
+[ĐẠT ] TC13 - Chất cần điều chế đã có sẵn
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+      ✔ Số bước = 0 (thực tế 0)
+[ĐẠT ] TC14 - Nhập bằng tên gọi tiếng Việt
+      ✔ Nhận dạng đúng chất ban đầu
+      ✔ Nhận dạng đúng chất cần điều chế
+      ✔ Giải được = True
+      ✔ Lời giải hợp lệ (D áp dụng được trên H và D(H) ⊇ G)
+[ĐẠT ] TC15 - Tắt điện phân dung dịch: thiếu O2
+      ✔ Giải được = False
+      ✔ Chất không điều chế được = ['Na2SO4', 'H2SO4'] (thực tế ['Na2SO4', 'H2SO4'])

@@ -1,0 +1,37 @@
+
+> triangle-solver-frontend@1.0.0 test
+> vitest run
+
+
+ RUN  v5.0.5 D:/ZB/Code/UIT/CS217/CS217-BT2/Bai1/frontend
+
+ ❯ src/App.test.tsx (14 tests | 1 failed) 24371ms
+   ❯ App (14)
+     × marks results stale when a fact changes 5138ms
+npm.cmd :
+At line:2 char:1
++ npm.cmd test 2>&1 | Tee-Object -FilePath '..\..\Tai_lieu_nop_bai\kiem ...
++ ~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/App.test.tsx > App > marks results stale when a fact changes
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/App.test.tsx:138:3
+    136|   });
+    137|
+    138|   it("marks results stale when a fact changes", async () => {
+       |   ^
+    139|     const s = setup();
+    140|     await solve345(s);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 40 passed (41)
+   Start at  01:04:23
+   Duration  29.62s (tests 74%, environment 18%, setup 3%, import 3%, transform 2%)

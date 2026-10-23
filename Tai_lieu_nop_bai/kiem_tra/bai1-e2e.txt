@@ -1,0 +1,48 @@
+
+> triangle-solver-frontend@1.0.0 test:e2e
+> playwright test
+
+npm.cmd : [WebServer] INFO:     Started server process [21824]
+At line:2 char:1
++ npm.cmd run test:e2e 2>&1 | Tee-Object -FilePath '..\..\Tai_lieu_nop_ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([WebServer] INF...process [21824]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+[WebServer] (node:264) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:12524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 13 tests using 6 workers
+
+(node:25484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  5 e2e\workflows.spec.ts:41:1 › E2E-03 insufficient information stays unresolved (4.9s)
+  ok  6 e2e\screenshots.spec.ts:36:1 › mobile solved (4.5s)
+  ok  4 e2e\screenshots.spec.ts:45:1 › tablet layout (4.9s)
+  ok  1 e2e\workflows.spec.ts:21:1 › E2E-02 SAS builds a right triangle (5.5s)
+  ok  3 e2e\workflows.spec.ts:8:1 › E2E-01 basic 3-4-5 triangle (6.4s)
+  ok  8 e2e\workflows.spec.ts:60:1 › E2E-05 inconsistent data is not shown as success (3.8s)
+  ok  2 e2e\screenshots.spec.ts:8:1 › desktop screenshots (9.7s)
+  ok  9 e2e\workflows.spec.ts:72:3 › E2E-06 responsive layout: desktop (4.5s)
+  ok  7 e2e\workflows.spec.ts:51:1 › E2E-04 invalid triangle (4.8s)
+  ok 10 e2e\workflows.spec.ts:72:3 › E2E-06 responsive layout: tablet (5.1s)
+  ok 11 e2e\workflows.spec.ts:72:3 › E2E-06 responsive layout: mobile (5.0s)
+  ok 12 e2e\workflows.spec.ts:88:1 › E2E-07 modifying a fact marks results stale (3.3s)
+  ok 13 e2e\workflows.spec.ts:100:1 › E2E-08 selecting a result highlights geometry and steps (3.1s)
+
+  13 passed (23.7s)
