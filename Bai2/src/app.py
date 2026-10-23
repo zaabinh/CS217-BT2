@@ -574,7 +574,7 @@ with tab_about:
 ### Mô hình biểu diễn tri thức
 
 Tri thức về các phản ứng hóa học được biểu diễn bằng **mạng tính toán mở rộng (M_Frame, F_Conditions)**
-(slide Chương 3.5), kèm hàm trọng số để thành **mạng suy diễn có trọng số (M, F, w)** (Chương 3.3, 4.4.2).
+, kèm hàm trọng số để thành **mạng suy diễn có trọng số (M, F, w)**
 
 | Thành phần | Ý nghĩa | Lưu trữ |
 |---|---|---|
