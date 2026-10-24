@@ -49,10 +49,19 @@ def get_kb() -> KnowledgeBase:
 
 
 def reload_kb():
-    st.session_state.kb = KnowledgeBase()
+    try:
+        st.session_state.kb = KnowledgeBase()
+    except (OSError, ValueError) as error:
+        st.error(f"Không nạp được CSTT: {error}")
+        return False
+    return True
 
 
-kb = get_kb()
+try:
+    kb = get_kb()
+except (OSError, ValueError) as error:
+    st.error(f"Không nạp được CSTT: {error}")
+    st.stop()
 matcher = Matcher(kb)
 
 DEFAULTS = {
@@ -112,8 +121,8 @@ with st.sidebar:
         "**Bài toán:** cho tập chất ban đầu **H**, tìm dãy phản ứng điều chế tập chất **G**."
     )
     if st.button("Tải lại CSTT từ file", width="stretch"):
-        reload_kb()
-        st.rerun()
+        if reload_kb():
+            st.rerun()
     with st.expander("Hướng dẫn nhanh"):
         st.markdown(
             "1. Nhập **chất ban đầu** và **chất cần điều chế** (công thức hoặc tên).\n"
@@ -263,6 +272,9 @@ with tab_solve:
     if st.session_state.auto_solve:
         run, st.session_state.auto_solve = True, False
 
+    request_key = (st.session_state.hyp_text, st.session_state.goal_text,
+                   st.session_state.method, tuple(sorted(enabled_tags())), kb.revision)
+
     if run:
         problems = []
         for res_p, name in ((ph, "chất ban đầu"), (pg, "chất cần điều chế")):
@@ -285,8 +297,12 @@ with tab_solve:
                 out = {st.session_state.method: solve(kb, ph.formulas, pg.formulas,
                                                       st.session_state.method, tags)}
             st.session_state.last = {"results": out, "notes": ph.notes + pg.notes}
+        st.session_state.last["request_key"] = request_key
 
     last = st.session_state.last
+    if last and last.get("request_key") != request_key:
+        st.warning("Dữ kiện, mục tiêu, phương pháp, điều kiện hoặc CSTT đã thay đổi. Hãy giải lại để cập nhật kết quả.")
+        last = None
     if last:
         st.divider()
         if "errors" in last:
