@@ -2,7 +2,7 @@
 
 ## 1. Cài đặt và khởi động
 
-**Yêu cầu:** máy đã cài Python 3.10 trở lên.
+**Yêu cầu:** máy đã cài Python 3.11 trở lên; kích hoạt môi trường riêng theo README trước khi chạy.
 
 **Bước 1 – Cài thư viện.** Chạy lệnh ở thư mục gốc của bài 2:
 

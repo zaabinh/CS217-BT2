@@ -11,6 +11,9 @@ export interface InferenceStep {
 }
 export interface SolveResponse {
   status: SolveStatus; facts: Facts; missing: Variable[]; trace: InferenceStep[]; message: string;
+    reason_code?: string;
+    diagnostics?: Array<Record<string, string>>;
+    stats?: Record<string, number | string>;
 }
 
 /** Empty base means same origin; in development the Vite proxy forwards /api. */

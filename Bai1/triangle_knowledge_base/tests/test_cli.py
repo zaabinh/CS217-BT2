@@ -23,7 +23,7 @@ def test_cli_subprocess(facts, goals, status, code):
     assert process.returncode == code, process.stderr
     response = json.loads(process.stdout)
     assert response["status"] == status
-    assert set(response) == {"status", "facts", "missing", "trace", "message"}
+    assert set(response) == {"status", "facts", "missing", "trace", "message", "reason_code", "diagnostics", "stats"}
 
 
 @pytest.mark.parametrize("facts,goals", [
@@ -41,7 +41,9 @@ def test_module_entry_point_and_json_matches_service():
                               "--goals", "r", "--json"], cwd=BAI1, capture_output=True, text=True, timeout=15)
     assert process.returncode == 0
     expected = SolverService().solve({"facts": {"S": 6, "p": 6}, "goals": ["r"]})
-    assert json.loads(process.stdout) == expected.model_dump(mode="json")
+    response = json.loads(process.stdout)
+    response["stats"].pop("time_ms")
+    assert response == expected.model_dump(mode="json", exclude={"stats": {"time_ms"}})
 
 
 def test_text_trace(capsys):

@@ -1,12 +1,7 @@
 """
 Kiểm thử tự động. Chạy:  python -m pytest -v 
 """
-import sys
-from pathlib import Path
-
 import pytest
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from formula import FormulaError, atom_balance, molar_mass, parse_formula  # noqa: E402
 from inference import (astar_optimal, closure, forward_chaining, good_solution,  # noqa: E402

@@ -52,6 +52,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                    "goals": [v.strip() for v in args.goals.split(",") if v.strip()]}
         response = SolverService().solve(request)
     except ValueError as error:
-        response = SolveResponse(status=SolveStatus.INVALID, message=str(error))
+        response = SolveResponse(status=SolveStatus.INVALID, message=str(error), reason_code="INVALID_INPUT",
+                                 diagnostics=[{"code": "INVALID_INPUT", "message": str(error)}],
+                                 stats={"steps": 0, "time_ms": 0, "termination_reason": "INVALID_INPUT"})
     print(response.model_dump_json(indent=2) if args.json else display(response))
     return 0 if response.status == SolveStatus.SOLVED else 1 if response.status == SolveStatus.UNRESOLVED else 2

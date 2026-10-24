@@ -84,7 +84,7 @@ function Body(p: Props & { r: SolveResult }) {
   const known = VARIABLES.filter((v) => facts[v] !== undefined).length;
   const summary = r.mode === "all" && status !== "INVALID" && status !== "INCONSISTENT"
     ? `Calculated everything the knowledge base can derive: ${known} of 13 values known.${status === "UNRESOLVED" ? " The rest cannot be derived from these facts." : ""}`
-    : explainMessage(status, message);
+    : explainMessage(status, message, r.response.reason_code);
   const sel = p.selected;
   const relevant = sel && p.stepView === "relevant" ? relevantSteps(trace, sel) : trace;
 

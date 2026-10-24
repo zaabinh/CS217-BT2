@@ -23,6 +23,7 @@ import heapq
 import itertools
 import time
 from dataclasses import dataclass, field
+from enum import Enum
 
 from knowledge_base import CONDITION_LABELS, KnowledgeBase, Reaction
 
@@ -32,6 +33,13 @@ METHODS = {
     "optimal": "Lời giải tối ưu (A*)",
     "backward": "Suy diễn lùi",
 }
+
+
+class SolveStatus(str, Enum):
+    SOLVED = "SOLVED"
+    UNRESOLVED = "UNRESOLVED"
+    INVALID = "INVALID"
+    INCONSISTENT = "INCONSISTENT"
 
 
 # --------------------------------------------------------------------------- cấu trúc kết quả
@@ -62,6 +70,8 @@ class SolveResult:
     raw_solution: list[Reaction] = field(default_factory=list)  # trước khi tối ưu
     reason_code: str = ""
     goal_reachable: bool | None = None
+    status: SolveStatus = SolveStatus.UNRESOLVED
+    diagnostics: list[dict[str, str]] = field(default_factory=list)
 
     @property
     def solution(self) -> list[Reaction]:
@@ -429,7 +439,13 @@ def solve(kb: KnowledgeBase, H: list[str], G: list[str], method: str = "good",
 
     def finish(code: str, message: str) -> SolveResult:
         res.reason_code, res.message = code, message
-        res.solvable = code in ("GOALS_REACHED", "GOALS_ALREADY_KNOWN")
+        res.status = (SolveStatus.SOLVED if code in ("GOALS_REACHED", "GOALS_ALREADY_KNOWN")
+                      else SolveStatus.INVALID if code == "INVALID_INPUT"
+                      else SolveStatus.INCONSISTENT if code == "INVALID_KNOWLEDGE_BASE"
+                      else SolveStatus.UNRESOLVED)
+        res.solvable = res.status == SolveStatus.SOLVED
+        if res.status in (SolveStatus.INVALID, SolveStatus.INCONSISTENT) and not res.diagnostics:
+            res.diagnostics.append({"code": code, "message": message})
         res.stats.setdefault("rules_used", 0)
         res.stats.update(termination_reason=code, steps=len(res.steps),
                          time_ms=round((time.perf_counter() - t0) * 1000, 1))
@@ -452,7 +468,7 @@ def solve(kb: KnowledgeBase, H: list[str], G: list[str], method: str = "good",
         return finish("INVALID_INPUT", "Thiếu dữ kiện: chưa nhập chất cần điều chế (mục tiêu G).")
     errors = kb.ensure_valid()
     if errors:
-        res.stats["validation_errors"] = errors
+        res.diagnostics = [{"code": "INVALID_KNOWLEDGE_BASE", "message": error} for error in errors]
         return finish("INVALID_KNOWLEDGE_BASE", "CSTT không hợp lệ: " + "; ".join(errors))
     unknown = [x for x in list(H) + list(G) if x not in kb.chemicals]
     if unknown:

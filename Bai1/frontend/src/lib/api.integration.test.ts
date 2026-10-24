@@ -15,6 +15,8 @@ describe("frontend API client against the real backend", () => {
   it("solves the 3-4-5 triangle", async () => {
     const r = await solve({ facts: { a: 3, b: 4, c: 5 }, goals: ["S", "hc", "R"] }, undefined, BASE);
     expect(r.status).toBe("SOLVED");
+    expect(r.reason_code).toBe("GOALS_REACHED");
+    expect(r.stats?.steps).toBe(r.trace.length);
     expect(r.facts.S).toBeCloseTo(6);
     expect(r.facts.hc).toBeCloseTo(2.4);
     expect(r.facts.R).toBeCloseTo(2.5);

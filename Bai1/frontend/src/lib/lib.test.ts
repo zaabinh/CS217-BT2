@@ -9,6 +9,11 @@ import { relevantSteps } from "./trace";
 const response = (over: Partial<SolveResponse> = {}): SolveResponse =>
   ({ status: "SOLVED", facts: {}, missing: [], trace: [], message: "ok", ...over });
 
+it("uses reason codes even when backend message wording changes", () => {
+  expect(explainMessage("INVALID", "new wording", "INVALID_TRIANGLE")).toContain("longest side");
+  expect(explainMessage("UNRESOLVED", "new wording", "NUMERICAL_LIMIT_REACHED")).toContain("unit scale");
+});
+
 describe("input parsing and validation", () => {
   it("distinguishes empty, invalid and valid", () => {
     expect(parseField("a", "")).toEqual({ kind: "empty" });

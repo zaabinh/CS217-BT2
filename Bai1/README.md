@@ -38,6 +38,12 @@ npm install
 npx playwright install chromium   # chỉ cần cho kiểm thử E2E
 ```
 
+Để chạy kiểm thử Python, cài thêm `requirements-dev.txt` vào cùng môi trường:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+```
+
 `requirements.txt` chứa khoảng phiên bản; `requirements-lock.txt` ghi môi trường đã kiểm thử (Python 3.13/Windows). Có thể dùng `pip install -r requirements-lock.txt` để tái lập. Thư viện chính: Pydantic v2, FastAPI, Uvicorn; kiểm thử: Pytest và HTTPX. Không cần database.
 
 ## CLI
@@ -112,6 +118,8 @@ Response:
 | INCONSISTENT | Dữ kiện riêng lẻ hợp lệ nhưng xung đột với quan hệ đã biết |
 
 Ở service/CLI, đầu vào sai cấu trúc trả `INVALID`; API trả 422 trước khi gọi service. Khi lỗi, `facts` chỉ chứa dữ kiện gốc và suy luận đã chấp nhận; ứng viên bị từ chối không xuất hiện trong facts/trace. `missing` là mục tiêu chưa có trong facts, vì vậy có thể rỗng ở T09 dù trạng thái là INCONSISTENT.
+
+Response bổ sung `reason_code` để giao diện xử lý độc lập với câu thông báo, `diagnostics` cho chi tiết lỗi/giới hạn số học và `stats` gồm số bước, thời gian và nguyên nhân dừng. Facts và trace vẫn xác định theo thứ tự luật; thời gian chạy có thể thay đổi giữa các lần gọi.
 
 ## Giao diện web
 

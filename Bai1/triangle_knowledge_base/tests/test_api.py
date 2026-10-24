@@ -24,7 +24,7 @@ def test_http_business_results_match_service(client, facts, goals, status):
     assert response.status_code == 200
     body = response.json()
     assert body["status"] == status
-    assert SolveResponse.model_validate(body) == SolverService().solve(payload)
+    assert SolveResponse.model_validate(body).model_dump(exclude={"stats": {"time_ms"}}) == SolverService().solve(payload).model_dump(exclude={"stats": {"time_ms"}})
     if status == "SOLVED":
         assert body["facts"]["S"] == pytest.approx(6)
         assert body["facts"]["r"] == pytest.approx(1)

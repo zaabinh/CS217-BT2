@@ -170,10 +170,13 @@ def render_result(res, key: str):
         "**Bài toán:** " + ", ".join(pretty(x) for x in H) + " ⟶ " + ", ".join(pretty(x) for x in G)
         + f" &nbsp; <span class='small'>({METHODS.get(res.method, res.method)})</span>",
         unsafe_allow_html=True)
-    if res.solvable:
+    if res.status == "SOLVED":
         st.success(res.message)
+    elif res.status == "UNRESOLVED":
+        st.warning(res.message)
     else:
         st.error(res.message)
+    st.caption(f"Trạng thái: {res.status.value}")
 
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Số phản ứng", len(res.steps))
@@ -320,7 +323,9 @@ with tab_solve:
                 st.markdown("### So sánh các phương pháp suy diễn")
                 rows = [{
                     "Phương pháp": METHODS[m],
-                    "Giải được": "✔" if r.solvable else "✘",
+                    "Tìm được lời giải": "✔" if r.solvable else "✘",
+                    "Trạng thái": r.status.value,
+                    "Mục tiêu trong bao đóng": "✔" if r.goal_reachable else "✘" if r.goal_reachable is False else "—",
                     "Số phản ứng": len(r.steps),
                     "Tổng trọng số": r.total_cost,
                     "Dãy phản ứng": " → ".join(x.id for x in r.solution) or "—",
