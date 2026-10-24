@@ -60,6 +60,13 @@ def test_revision_detects_direct_mutation_and_revalidates(kb):
     kb.reactions[0].cost = True
     assert kb.revision != before
     assert kb.ensure_valid()
+    assert any(issue["level"] == "Lỗi" for issue in kb.check_consistency())
+
+
+def test_malformed_public_record_is_rejected_without_crashing(kb):
+    kb.reactions.append(None)
+    assert kb.ensure_valid()
+    assert kb.check_consistency()[0]["level"] == "Lỗi"
 
 
 def test_unchanged_snapshot_uses_cached_validation(kb, monkeypatch):

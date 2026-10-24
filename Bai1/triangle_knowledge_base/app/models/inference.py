@@ -30,3 +30,4 @@ class SolveResponse(BaseModel):
     reason_code: str = ""
     diagnostics: list[dict[str, str]] = Field(default_factory=list)
     stats: dict[str, float | int | str] = Field(default_factory=dict)
+    relevant_trace: list[InferenceStep] | None = None

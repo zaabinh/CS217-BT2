@@ -1,12 +1,23 @@
 """Application entry point shared by every presentation adapter."""
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping, Sequence
 from time import perf_counter
 from pydantic import ValidationError
 
 from ..core.inference_engine import InferenceEngine
 from ..core.validator import TriangleValidator
 from ..knowledge.rules import RuleRegistry, build_registry
-from ..models import SolveRequest, SolveResponse, SolveStatus
+from ..models import InferenceStep, SolveRequest, SolveResponse, SolveStatus, Variable
+
+
+def relevant_steps(trace: Sequence[InferenceStep], targets: Iterable[Variable]) -> list[InferenceStep]:
+    """Select a dependency explanation without changing the full inference trace."""
+    needed = set(targets)
+    selected: set[int] = set()
+    for step in reversed(trace):
+        if step.output in needed:
+            selected.add(step.step)
+            needed.update(step.inputs)
+    return [step for step in trace if step.step in selected]
 
 
 class SolverService:
@@ -28,4 +39,7 @@ class SolverService:
                                  diagnostics=[{"code": "INVALID_INPUT", "message": str(error)}],
                                  stats={"steps": 0, "time_ms": round((perf_counter()-started)*1000, 3),
                                         "termination_reason": "INVALID_INPUT"})
-        return self.engine.solve(validated)
+        response = self.engine.solve(validated)
+        if validated.trace_targets is not None:
+            response.relevant_trace = relevant_steps(response.trace, validated.trace_targets)
+        return response

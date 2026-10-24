@@ -26,6 +26,7 @@ class SolveRequest(BaseModel):
 
     facts: dict[Variable, float] = Field(default_factory=dict)
     goals: set[Variable] = Field(min_length=1)
+    trace_targets: set[Variable] | None = Field(default=None, min_length=1)
 
     @field_validator("facts", mode="before")
     @classmethod

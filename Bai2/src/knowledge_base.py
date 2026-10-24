@@ -12,8 +12,8 @@ Module này cũng cài đặt các tác vụ cơ bản trên CSTT:
 """
 from __future__ import annotations
 
-import json
 import hashlib
+import json
 import math
 import os
 import tempfile
@@ -264,19 +264,17 @@ class KnowledgeBase:
             revision = None
         if revision is not None and revision == getattr(self, "_validated_revision", None):
             return []
+        if (not isinstance(self.chemicals, dict) or not isinstance(self.reactions, list)
+                or any(not isinstance(c, Chemical) for c in self.chemicals.values())
+                or any(not isinstance(r, Reaction) for r in self.reactions)):
+            return ["CSTT phải chứa các bản ghi Chemical và Reaction hợp lệ."]
         errors = []
         for key, chemical in self.chemicals.items():
-            if not isinstance(chemical, Chemical):
-                errors.append(f"{key}: dữ liệu chất không hợp lệ.")
-                continue
             if key != chemical.formula:
                 errors.append(f"Khóa {key} khác công thức {chemical.formula}.")
             errors.extend(self.validate_chemical(chemical, editing=key))
         ids = set()
         for reaction in self.reactions:
-            if not isinstance(reaction, Reaction):
-                errors.append("Dữ liệu phản ứng không hợp lệ.")
-                continue
             if not isinstance(reaction.id, str):
                 errors.append("Mã phản ứng phải là chuỗi.")
                 continue
@@ -472,6 +470,10 @@ class KnowledgeBase:
 
         level: 'Lỗi' (phải sửa) | 'Cảnh báo' | 'Thông tin'
         """
+        errors = self.ensure_valid()
+        if errors:
+            return [{"level": "Lỗi", "kind": "CSTT không hợp lệ", "target": "CSTT", "message": error}
+                    for error in errors]
         issues: list[dict] = []
 
         def add(level, kind, target, msg):

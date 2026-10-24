@@ -29,9 +29,10 @@ def display(response: SolveResponse) -> str:
     """Round only displayed text; JSON retains full numerical precision."""
     lines = [response.status.value, response.message, "Facts:"]
     lines.extend(f"  {v.value} = {value:.10g}" for v, value in response.facts.items())
-    if response.trace:
-        lines.append("Inference trace:")
-        for step in response.trace:
+    trace = response.relevant_trace if response.relevant_trace is not None else response.trace
+    if trace:
+        lines.append("Relevant inference trace:" if response.relevant_trace is not None else "Inference trace:")
+        for step in trace:
             inputs = ", ".join(f"{v.value}={x:.10g}" for v, x in step.inputs.items())
             lines.append(f"  {step.step}. {step.rule_id} [{step.group}] {step.formula}; "
                          f"inputs: {inputs} -> {step.output.value}={step.value:.10g}")
@@ -46,10 +47,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--facts", required=True, help="e.g. a=3,b=4,c=5")
     parser.add_argument("--goals", required=True, help="e.g. p,S,hc,r,R")
     parser.add_argument("--json", action="store_true", help="Print the complete JSON response")
+    parser.add_argument("--trace-for", help="Show the dependency steps for these variables, e.g. hc,r")
     args = parser.parse_args(argv)
     try:
         request = {"facts": parse_facts(args.facts),
                    "goals": [v.strip() for v in args.goals.split(",") if v.strip()]}
+        if args.trace_for is not None:
+            request["trace_targets"] = [v.strip() for v in args.trace_for.split(",") if v.strip()]
         response = SolverService().solve(request)
     except ValueError as error:
         response = SolveResponse(status=SolveStatus.INVALID, message=str(error), reason_code="INVALID_INPUT",

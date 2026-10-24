@@ -23,7 +23,7 @@ def test_cli_subprocess(facts, goals, status, code):
     assert process.returncode == code, process.stderr
     response = json.loads(process.stdout)
     assert response["status"] == status
-    assert set(response) == {"status", "facts", "missing", "trace", "message", "reason_code", "diagnostics", "stats"}
+    assert set(response) == {"status", "facts", "missing", "trace", "message", "reason_code", "diagnostics", "stats", "relevant_trace"}
 
 
 @pytest.mark.parametrize("facts,goals", [

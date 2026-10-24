@@ -4,7 +4,7 @@ export type SolveStatus = "SOLVED" | "UNRESOLVED" | "INVALID" | "INCONSISTENT";
 export type Facts = Partial<Record<Variable, number>>;
 
 /** Mirrors models/inference.py SolveRequest / InferenceStep / SolveResponse. */
-export interface SolveRequest { facts: Facts; goals: Variable[] }
+export interface SolveRequest { facts: Facts; goals: Variable[]; trace_targets?: Variable[] }
 export interface InferenceStep {
   step: number; rule_id: string; group: string;
   inputs: Facts; output: Variable; value: number; formula: string;
@@ -14,6 +14,7 @@ export interface SolveResponse {
     reason_code?: string;
     diagnostics?: Array<Record<string, string>>;
     stats?: Record<string, number | string>;
+    relevant_trace?: InferenceStep[] | null;
 }
 
 /** Empty base means same origin; in development the Vite proxy forwards /api. */

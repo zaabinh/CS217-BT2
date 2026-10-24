@@ -54,6 +54,7 @@ npx playwright install chromium   # chỉ cần cho kiểm thử E2E
 .\.venv\Scripts\python.exe main.py --facts "a=3" --goals "S"
 .\.venv\Scripts\python.exe main.py --facts "a=3,b=4,c=5,S=7" --goals "S"
 .\.venv\Scripts\python.exe main.py --facts "S=6,p=6" --goals "r" --json
+.\.venv\Scripts\python.exe main.py --facts "a=3,b=4,p=6" --goals "hc" --trace-for "hc"
 ```
 
 T01 cho `p=6, S=6, hc=2.4, r=1, R=2.5`. Dữ kiện theo `tên=giá_trị`, ngăn cách dấu phẩy; mục tiêu là danh sách tên biến. CLI in trạng thái, dữ kiện và từng bước suy luận. `--json` giữ toàn bộ độ chính xác. Mã thoát: `0` SOLVED, `1` UNRESOLVED, `2` INVALID/INCONSISTENT hoặc lỗi cú pháp. Không nhập một biến nhiều lần.
@@ -120,6 +121,8 @@ Response:
 Ở service/CLI, đầu vào sai cấu trúc trả `INVALID`; API trả 422 trước khi gọi service. Khi lỗi, `facts` chỉ chứa dữ kiện gốc và suy luận đã chấp nhận; ứng viên bị từ chối không xuất hiện trong facts/trace. `missing` là mục tiêu chưa có trong facts, vì vậy có thể rỗng ở T09 dù trạng thái là INCONSISTENT.
 
 Response bổ sung `reason_code` để giao diện xử lý độc lập với câu thông báo, `diagnostics` cho chi tiết lỗi/giới hạn số học và `stats` gồm số bước, thời gian và nguyên nhân dừng. Facts và trace vẫn xác định theo thứ tự luật; thời gian chạy có thể thay đổi giữa các lần gọi.
+
+Có thể thêm `"trace_targets":["hc"]` vào request để nhận `relevant_trace`: các bước phụ thuộc cần cho mục tiêu đó, giữ số thứ tự gốc. `trace` vẫn chứa đầy đủ lịch sử thực thi, không bị rút gọn. Không yêu cầu lọc thì `relevant_trace` là `null`; mục tiêu có sẵn hoặc chưa suy ra được sẽ có danh sách rỗng. CLI có tùy chọn tương ứng `--trace-for`.
 
 ## Giao diện web
 
