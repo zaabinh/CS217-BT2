@@ -1,6 +1,6 @@
 # Triangle Knowledge Base — Bài 1
 
-Hệ cơ sở tri thức tam giác bằng mạng tính toán **(M, F)**: đúng **13 biến, 10 nhóm Q01–Q10, 46 luật R01–R46** theo Phụ lục A của [báo cáo](Bao_cao_Bai_1.pdf). Suy diễn tiến tổng quát, kiểm tra dữ kiện và dấu vết giải thích. CLI và FastAPI cùng gọi `SolverService`.
+Hệ cơ sở tri thức tam giác bằng mạng tính toán **(M, F)**: đúng **13 biến, 10 nhóm Q01–Q10, 46 luật R01–R46** theo Phụ lục A của [báo cáo](<Báo cáo Bài 1.pdf>). Suy diễn tiến tổng quát, kiểm tra dữ kiện và dấu vết giải thích. CLI và FastAPI cùng gọi `SolverService`.
 
 ## Tính năng
 
@@ -38,6 +38,12 @@ npm install
 npx playwright install chromium   # chỉ cần cho kiểm thử E2E
 ```
 
+Để chạy kiểm thử Python, cài thêm `requirements-dev.txt` vào cùng môi trường:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+```
+
 `requirements.txt` chứa khoảng phiên bản; `requirements-lock.txt` ghi môi trường đã kiểm thử (Python 3.13/Windows). Có thể dùng `pip install -r requirements-lock.txt` để tái lập. Thư viện chính: Pydantic v2, FastAPI, Uvicorn; kiểm thử: Pytest và HTTPX. Không cần database.
 
 ## CLI
@@ -48,6 +54,7 @@ npx playwright install chromium   # chỉ cần cho kiểm thử E2E
 .\.venv\Scripts\python.exe main.py --facts "a=3" --goals "S"
 .\.venv\Scripts\python.exe main.py --facts "a=3,b=4,c=5,S=7" --goals "S"
 .\.venv\Scripts\python.exe main.py --facts "S=6,p=6" --goals "r" --json
+.\.venv\Scripts\python.exe main.py --facts "a=3,b=4,p=6" --goals "hc" --trace-for "hc"
 ```
 
 T01 cho `p=6, S=6, hc=2.4, r=1, R=2.5`. Dữ kiện theo `tên=giá_trị`, ngăn cách dấu phẩy; mục tiêu là danh sách tên biến. CLI in trạng thái, dữ kiện và từng bước suy luận. `--json` giữ toàn bộ độ chính xác. Mã thoát: `0` SOLVED, `1` UNRESOLVED, `2` INVALID/INCONSISTENT hoặc lỗi cú pháp. Không nhập một biến nhiều lần.
@@ -113,9 +120,27 @@ Response:
 
 Ở service/CLI, đầu vào sai cấu trúc trả `INVALID`; API trả 422 trước khi gọi service. Khi lỗi, `facts` chỉ chứa dữ kiện gốc và suy luận đã chấp nhận; ứng viên bị từ chối không xuất hiện trong facts/trace. `missing` là mục tiêu chưa có trong facts, vì vậy có thể rỗng ở T09 dù trạng thái là INCONSISTENT.
 
+Response bổ sung `reason_code` để giao diện xử lý độc lập với câu thông báo, `diagnostics` cho chi tiết lỗi/giới hạn số học và `stats` gồm số bước, thời gian và nguyên nhân dừng. Facts và trace vẫn xác định theo thứ tự luật; thời gian chạy có thể thay đổi giữa các lần gọi.
+
+Có thể thêm `"trace_targets":["hc"]` vào request để nhận `relevant_trace`: các bước phụ thuộc cần cho mục tiêu đó, giữ số thứ tự gốc. `trace` vẫn chứa đầy đủ lịch sử thực thi, không bị rút gọn. Không yêu cầu lọc thì `relevant_trace` là `null`; mục tiêu có sẵn hoặc chưa suy ra được sẽ có danh sách rỗng. CLI có tùy chọn tương ứng `--trace-for`.
+
 ## Giao diện web
 
-Mở hai terminal tại `Bai1`:
+Sau khi cài dependencies, chạy tại `Bai1`:
+
+```powershell
+.\run_app.bat
+```
+
+Linux/macOS hoặc Git Bash:
+
+```bash
+bash run_app.sh
+```
+
+[run_app.bat](run_app.bat) và [run_app.sh](run_app.sh) ưu tiên Python trong `.venv`, gọi chung [run_app.py](run_app.py) để bật API và Vite. Mở http://127.0.0.1:5173; nhấn **Ctrl+C** để dừng cả hai. Script báo lỗi nếu thiếu dependencies hoặc cổng 8000/5173 đang bận; không tự cài thư viện.
+
+Có thể chạy thủ công bằng hai terminal tại `Bai1`:
 
 ```powershell
 # Terminal 1: backend
@@ -142,16 +167,9 @@ Xem [frontend/.env.example](frontend/.env.example). Không có bí mật nào c�
 | `VITE_API_BASE_URL` | rỗng | Gốc URL trình duyệt dùng để gọi API; rỗng = cùng origin, đi qua proxy |
 | `VITE_BACKEND_URL` | `http://127.0.0.1:8000` | Đích của proxy `/api` (dev/preview) |
 
-### Ảnh chụp màn hình
+### Demo
 
-[Video demo local và ảnh theo từng bước](Demo/README.md) ghi phiên trình duyệt thật: nhập dữ kiện, chọn mục tiêu, xem tam giác, kết quả và chuỗi suy luận. Chạy lại từ `frontend` bằng `npm run demo:record`.
-
-| | |
-|---|---|
-| ![Solved](docs/screenshots/desktop-solved.png) | ![Inference](docs/screenshots/desktop-inference.png) |
-| ![Invalid](docs/screenshots/desktop-invalid.png) | ![Mobile](docs/screenshots/mobile-solved.png) |
-
-Các ảnh khác: [desktop-initial](docs/screenshots/desktop-initial.png), [desktop-unresolved](docs/screenshots/desktop-unresolved.png), [tablet-layout](docs/screenshots/tablet-layout.png).
+[Video demo local](Demo/triangle-solver-demo.webm) ghi phiên trình duyệt thật: nhập dữ kiện, chọn mục tiêu, xem tam giác, kết quả và chuỗi suy luận. Xem [hướng dẫn ghi lại video](Demo/README.md).
 
 ## Kiến trúc và suy luận
 
@@ -172,28 +190,23 @@ Engine sao chép H, kiểm tra trước khi xét mục tiêu có sẵn, quét R0
 
 Validator kiểm tra miền, bất đẳng thức tam giác, góc, nửa chu vi, Heron kể cả khi H chưa có p, và các quan hệ đủ dữ kiện. `p` phải lớn hơn mỗi cạnh đã biết. So sánh bằng `abs_tol=1e-8, rel_tol=1e-7`. Cosin/Heron dùng dạng đại số tương đương ổn định số học (half-angle, atan2, Kahan), giữ nguyên hướng và đầu vào R14–R20. Không thêm luật arcsin.
 
-## Kiểm thử và bằng chứng
+## Kiểm thử
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -v
-.\.venv\Scripts\python.exe scripts/record_evidence.py
 .\.venv\Scripts\python.exe -m pip check
 ```
 
-Đã chạy **240 passed, 0 failed** trên Python 3.13.5. Gồm T01–T12; đối chiếu metadata từng luật với [bản chép độc lập phụ lục](triangle_knowledge_base/tests/report_rules.csv); thực thi từng luật trên hai tam giác; validation, số học gần biên, trace; CLI qua subprocess; HTTP schemas, kết quả API và OpenAPI. Có một cảnh báo deprecation từ Starlette TestClient về HTTPX trong môi trường hiện tại; không có lỗi kiểm thử.
+Bộ test gồm T01–T12; đối chiếu metadata từng luật với [bản chép độc lập phụ lục](triangle_knowledge_base/tests/report_rules.csv); thực thi từng luật trên hai tam giác; validation, số học gần biên, trace; CLI qua subprocess; HTTP schemas, kết quả API và OpenAPI. Log sinh khi chạy test không được lưu trong source.
 
 Frontend (từ `Bai1/frontend`):
 
 ```powershell
-npm test                    # unit + component (Vitest, RTL): 41 passed
+npm test                    # unit + component (Vitest, RTL): 44 passed
 npm run test:integration    # gọi backend thật; cần uvicorn đang chạy ở :8000: 9 passed
-npm run test:e2e            # Playwright, tự khởi động backend và Vite nếu chưa chạy: 13 passed
-npm run screenshots         # chụp lại docs/screenshots/
+npm run test:e2e            # 10 test chức năng Playwright; tự khởi động backend và Vite
+npm run build               # kiểm tra TypeScript và build production
 ```
-
-Chi tiết: [docs/TEST_REPORT.md](docs/TEST_REPORT.md).
-
-[evidence](evidence/) chứa log Pytest, môi trường/phiên bản, kết quả số và trace T01–T12, bản ghi CLI T01/T04/T09/T11. `record_evidence.py` chạy lại test trước khi xuất kết quả. Xem [báo cáo bàn giao](docs/dev-docs/DELIVERY_REPORT.md) để đối chiếu thay đổi và cập nhật báo cáo học thuật.
 
 ## Cấu trúc thư mục
 
@@ -202,17 +215,17 @@ Chi tiết: [docs/TEST_REPORT.md](docs/TEST_REPORT.md).
 | `triangle_knowledge_base/app/` | Backend: models, knowledge (46 luật), core (engine, validator), services, api, cli |
 | `triangle_knowledge_base/tests/` | Kiểm thử backend |
 | `frontend/src/` | React app: `components/` (giao diện), `lib/` (API client, hình học, kiểm tra đầu vào) |
-| `frontend/e2e/` | Kiểm thử Playwright và script chụp màn hình |
-| `docs/` | Tài liệu giao diện và ảnh chụp |
-| `evidence/`, `scripts/` | Bằng chứng kiểm thử backend |
+| `frontend/e2e/` | Kiểm thử chức năng bằng Playwright |
+| `frontend/demo/` | Kịch bản ghi video demo, chạy riêng với bộ test |
+| `docs/` | Hướng dẫn sử dụng giao diện |
+| `Demo/` | Video demo và hướng dẫn ghi lại |
 
 ## Tài liệu
 
-- [UI/UX specification](docs/UI_UX_SPECIFICATION.md)
-- [User guide](docs/USER_GUIDE.md)
-- [Implementation summary](docs/IMPLEMENTATION_SUMMARY.md)
-- [Test report](docs/TEST_REPORT.md)
-- [Delivery checklist](docs/DELIVERY.md)
+- [Báo cáo bài tập](<Báo cáo Bài 1.pdf>)
+- [Nguồn báo cáo DOCX](<Báo cáo Bài 1.docx>), [chuẩn trình bày chung](../Tai_lieu_bao_cao/README.md)
+- [Hướng dẫn sử dụng](docs/USER_GUIDE.md)
+- [Video demo](Demo/README.md)
 
 ## Giới hạn
 

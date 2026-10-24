@@ -161,6 +161,27 @@ describe("App", () => {
     expect(screen.queryByRole("alert")).toBeNull();
   });
 
+  it("marks results stale when targets change", async () => {
+    const s = setup();
+    await solve345(s);
+    await s.user.click(s.target("Side a"));
+    expect(screen.getByTestId("stale-banner")).toBeInTheDocument();
+    expect(screen.queryByTestId("triangle-svg")).toBeNull();
+  });
+
+  it("ignores a pending response after an input edit", async () => {
+    let resolve!: (r: SolveResponse) => void;
+    const s = setup(vi.fn(() => new Promise<SolveResponse>((r) => { resolve = r; })));
+    await s.type("a", "3");
+    await s.user.click(s.target("Area"));
+    await s.user.click(screen.getByRole("button", { name: "Solve selected" }));
+    await s.type("a", "4");
+    resolve(solved345);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(screen.queryByTestId("status-badge")).toBeNull();
+    expect(screen.getByRole("button", { name: "Solve selected" })).toBeEnabled();
+  });
+
   it("presents INVALID and INCONSISTENT without values or success", async () => {
     const s = setup(vi.fn(async () => ({ status: "INCONSISTENT", facts: { a: 3, b: 4, c: 5, S: 7 }, missing: [], trace: [], message: "Q05/R20 Heron: S=7, expected 6.000000000000001" }) as SolveResponse));
     await s.type("a", "3");

@@ -60,7 +60,7 @@ def test_deterministic_scan_and_request_isolation():
     payload = {"facts": {"a": 3, "b": 4, "p": 6}, "goals": ["c", "S", "hc"]}
     first = service.solve(payload)
     assert [s.rule_id for s in first.trace] == ["R07", "R15", "R17", "R19", "R20", "R22", "R25", "R28"]
-    assert first == service.solve(payload)
+    assert first.model_dump(exclude={"stats": {"time_ms"}}) == service.solve(payload).model_dump(exclude={"stats": {"time_ms"}})
     assert service.solve({"facts": {"a": 3}, "goals": ["S"]}).facts == {"a": 3}
 
 

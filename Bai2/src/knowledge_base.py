@@ -12,8 +12,11 @@ Module này cũng cài đặt các tác vụ cơ bản trên CSTT:
 """
 from __future__ import annotations
 
+import hashlib
 import json
-import shutil
+import math
+import os
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -49,6 +52,24 @@ def default_cost(tags: list[str]) -> int:
     return 1 + sum(CONDITION_COST.get(t, 0) for t in tags)
 
 
+def _text(value, name: str) -> str:
+    if not isinstance(value, str):
+        raise ValueError(f"{name}: phải là chuỗi.")
+    return value
+
+
+def _texts(value, name: str) -> list[str]:
+    if not isinstance(value, list) or any(not isinstance(x, str) for x in value):
+        raise ValueError(f"{name}: phải là danh sách chuỗi.")
+    return list(value)
+
+
+def _positive_int(value, name: str) -> int:
+    if type(value) is not int or value <= 0:
+        raise ValueError(f"{name}: phải là số nguyên dương, không nhận boolean.")
+    return value
+
+
 # --------------------------------------------------------------------------- Frame chất
 @dataclass
 class Chemical:
@@ -73,14 +94,18 @@ class Chemical:
 
     @classmethod
     def from_dict(cls, d: dict) -> "Chemical":
+        mass = d.get("Atomic mass")
+        if mass is not None and (type(mass) not in (int, float)
+                                 or not math.isfinite(mass) or mass <= 0):
+            raise ValueError("Atomic mass: phải là số hữu hạn dương.")
         return cls(
-            formula=d["Formula"],
-            names=list(d.get("Name", [])),
-            state=d.get("State", "Solid"),
-            type=d.get("Type", "Others"),
-            color=d.get("Color", ""),
-            solubility=d.get("Solubility", "Soluble"),
-            atomic_mass=d.get("Atomic mass"),
+            formula=_text(d["Formula"], "Formula"),
+            names=_texts(d.get("Name", []), "Name"),
+            state=_text(d.get("State", "Solid"), "State"),
+            type=_text(d.get("Type", "Others"), "Type"),
+            color=_text(d.get("Color", ""), "Color"),
+            solubility=_text(d.get("Solubility", "Soluble"), "Solubility"),
+            atomic_mass=mass,
         )
 
     def to_dict(self) -> dict:
@@ -138,18 +163,29 @@ class Reaction:
 
     @classmethod
     def from_dict(cls, d: dict) -> "Reaction":
-        tags = list(d.get("condition_tags", []))
+        tags = _texts(d.get("condition_tags", []), "condition_tags")
+        reactants = _texts(d["if"], "if")
+        products = _texts(d["then"], "then")
+        weights = d.get("weights", [1] * (len(reactants) + len(products)))
+        if not isinstance(weights, list):
+            raise ValueError("weights: phải là danh sách số nguyên.")
+        properties = d.get("properties", [])
+        if not isinstance(properties, list) or any(
+            not isinstance(p, list) or len(p) != 2 or any(not isinstance(x, str) for x in p)
+            for p in properties
+        ):
+            raise ValueError("properties: phải là danh sách cặp chuỗi.")
         return cls(
-            id=d["id"],
-            reactants=list(d["if"]),
-            products=list(d["then"]),
-            weights=[int(w) for w in d.get("weights", [1] * (len(d["if"]) + len(d["then"])))],
-            conditions=d.get("conditions", ""),
+            id=_text(d["id"], "id"),
+            reactants=reactants,
+            products=products,
+            weights=[_positive_int(w, "weights") for w in weights],
+            conditions=_text(d.get("conditions", ""), "conditions"),
             condition_tags=tags,
             properties=[list(p) for p in d.get("properties", [])],
-            cost=int(d.get("cost", default_cost(tags))),
-            group=d.get("group", ""),
-            note=d.get("note", ""),
+            cost=_positive_int(d.get("cost", default_cost(tags)), "cost"),
+            group=_text(d.get("group", ""), "group"),
+            note=_text(d.get("note", ""), "note"),
         )
 
     def to_dict(self) -> dict:
@@ -192,22 +228,102 @@ class KnowledgeBase:
         return self.data_dir / "reactions.json"
 
     def load(self) -> None:
+        """Validate both files before replacing the current in-memory snapshot."""
         chems = json.loads(self.chem_file.read_text(encoding="utf-8"))
         reacts = json.loads(self.react_file.read_text(encoding="utf-8"))
-        self.chemicals = {c["Formula"]: Chemical.from_dict(c) for c in chems}
-        self.reactions = [Reaction.from_dict(r) for r in reacts]
+        if not isinstance(chems, list) or not isinstance(reacts, list):
+            raise ValueError("CSTT: mỗi file phải chứa một danh sách JSON.")
+        try:
+            chemicals = [Chemical.from_dict(c) for c in chems]
+            reactions = [Reaction.from_dict(r) for r in reacts]
+        except (KeyError, TypeError, AttributeError, OverflowError) as error:
+            raise ValueError(f"CSTT sai cấu trúc: {error}") from error
+        if len({c.formula for c in chemicals}) != len(chemicals):
+            raise ValueError("CSTT có công thức chất trùng lặp.")
+        candidate = object.__new__(KnowledgeBase)
+        candidate.data_dir = self.data_dir
+        candidate.chemicals = {c.formula: c for c in chemicals}
+        candidate.reactions = reactions
+        errors = candidate.ensure_valid()
+        if errors:
+            raise ValueError("CSTT không hợp lệ: " + "; ".join(errors))
+        self.chemicals, self.reactions = candidate.chemicals, candidate.reactions
+        self._validated_revision = candidate.revision
+
+    @property
+    def revision(self) -> str:
+        """Content fingerprint, also detecting direct edits to public dataclasses."""
+        payload = [[c.to_dict() for c in self.chemicals.values()], [r.to_dict() for r in self.reactions]]
+        return hashlib.sha256(json.dumps(payload, sort_keys=True, allow_nan=False).encode()).hexdigest()
+
+    def ensure_valid(self) -> list[str]:
+        """Check inexpensive domain constraints once per content revision."""
+        try:
+            revision = self.revision
+        except (TypeError, ValueError, AttributeError):
+            revision = None
+        if revision is not None and revision == getattr(self, "_validated_revision", None):
+            return []
+        if (not isinstance(self.chemicals, dict) or not isinstance(self.reactions, list)
+                or any(not isinstance(c, Chemical) for c in self.chemicals.values())
+                or any(not isinstance(r, Reaction) for r in self.reactions)):
+            return ["CSTT phải chứa các bản ghi Chemical và Reaction hợp lệ."]
+        errors = []
+        for key, chemical in self.chemicals.items():
+            if key != chemical.formula:
+                errors.append(f"Khóa {key} khác công thức {chemical.formula}.")
+            errors.extend(self.validate_chemical(chemical, editing=key))
+        ids = set()
+        for reaction in self.reactions:
+            if not isinstance(reaction.id, str):
+                errors.append("Mã phản ứng phải là chuỗi.")
+                continue
+            if reaction.id in ids:
+                errors.append(f"Mã phản ứng trùng: {reaction.id}.")
+            ids.add(reaction.id)
+            errors.extend(self.validate_reaction(reaction, editing_id=reaction.id))
+        if not errors and revision is not None:
+            self._validated_revision = revision
+        return errors
 
     def save(self) -> None:
-        self.chem_file.write_text(_dump([c.to_dict() for c in self.chemicals.values()]) + "\n",
-                                  encoding="utf-8")
-        self.react_file.write_text(_dump([r.to_dict() for r in self.reactions]) + "\n",
-                                   encoding="utf-8")
+        """Stage both files before publishing; roll back completed writes on failure."""
+        errors = self.ensure_valid()
+        if errors:
+            raise ValueError("CSTT không hợp lệ: " + "; ".join(errors))
+        payloads = [(self.chem_file, _dump([c.to_dict() for c in self.chemicals.values()]) + "\n"),
+                    (self.react_file, _dump([r.to_dict() for r in self.reactions]) + "\n")]
+        staged, replaced, originals = [], [], {}
+        try:
+            for path, content in payloads:
+                originals[path] = path.read_bytes()
+                with tempfile.NamedTemporaryFile(dir=self.data_dir, delete=False) as stream:
+                    staged.append((Path(stream.name), path))
+                    stream.write(content.encode("utf-8"))
+            for temporary, path in staged:
+                os.replace(temporary, path)
+                replaced.append(path)
+        except OSError:
+            for path in replaced:
+                path.write_bytes(originals[path])
+            raise
+        finally:
+            for temporary, _ in staged:
+                temporary.unlink(missing_ok=True)
+
+    def _publish(self, chemicals: dict[str, Chemical], reactions: list[Reaction]) -> None:
+        previous = self.chemicals, self.reactions, getattr(self, "_validated_revision", None)
+        self.chemicals, self.reactions = chemicals, reactions
+        try:
+            self.save()
+        except (OSError, ValueError):
+            self.chemicals, self.reactions, self._validated_revision = previous
+            raise
 
     def reset_default(self) -> None:
         """Khôi phục CSTT gốc từ thư mục data/default."""
-        for name in ("chemicals.json", "reactions.json"):
-            shutil.copyfile(self.data_dir / "default" / name, self.data_dir / name)
-        self.load()
+        default = KnowledgeBase(self.data_dir / "default")
+        self._publish(default.chemicals, default.reactions)
 
     # ----- truy vấn
     def get_reaction(self, rid: str) -> Reaction | None:
@@ -234,6 +350,10 @@ class KnowledgeBase:
 
     # ----- kiểm tra một phản ứng trước khi thêm/sửa
     def validate_reaction(self, r: Reaction, editing_id: str | None = None) -> list[str]:
+        try:
+            Reaction.from_dict(r.to_dict())
+        except (ValueError, TypeError, KeyError, OverflowError) as error:
+            return [str(error)]
         errs = []
         if not r.reactants or not r.products:
             errs.append("Phản ứng phải có ít nhất một chất tham gia và một chất sản phẩm.")
@@ -274,23 +394,25 @@ class KnowledgeBase:
     def add_reaction(self, r: Reaction) -> list[str]:
         errs = self.validate_reaction(r)
         if not errs:
-            self.reactions.append(r)
-            self.save()
+            self._publish(dict(self.chemicals), [*self.reactions, r])
         return errs
 
     def update_reaction(self, old_id: str, r: Reaction) -> list[str]:
         errs = self.validate_reaction(r, editing_id=old_id)
         if not errs:
-            idx = next(i for i, x in enumerate(self.reactions) if x.id == old_id)
-            self.reactions[idx] = r
-            self.save()
+            if not self.get_reaction(old_id):
+                return [f"Không có phản ứng {old_id}."]
+            self._publish(dict(self.chemicals), [r if x.id == old_id else x for x in self.reactions])
         return errs
 
     def delete_reaction(self, rid: str) -> None:
-        self.reactions = [r for r in self.reactions if r.id != rid]
-        self.save()
+        self._publish(dict(self.chemicals), [r for r in self.reactions if r.id != rid])
 
     def validate_chemical(self, c: Chemical, editing: str | None = None) -> list[str]:
+        try:
+            Chemical.from_dict(c.to_dict())
+        except (ValueError, TypeError, KeyError, OverflowError) as error:
+            return [str(error)]
         errs = []
         try:
             parse_formula(c.formula)
@@ -309,18 +431,18 @@ class KnowledgeBase:
     def add_chemical(self, c: Chemical) -> list[str]:
         errs = self.validate_chemical(c)
         if not errs:
-            self.chemicals[c.formula] = c
-            self.save()
+            self._publish({**self.chemicals, c.formula: c}, list(self.reactions))
         return errs
 
     def update_chemical(self, old_formula: str, c: Chemical) -> list[str]:
         errs = self.validate_chemical(c, editing=old_formula)
+        if old_formula not in self.chemicals:
+            errs.append(f"Không có chất {old_formula}.")
         if not errs:
             new = {}
             for f, v in self.chemicals.items():
                 new[c.formula if f == old_formula else f] = c if f == old_formula else v
-            self.chemicals = new
-            self.save()
+            self._publish(new, list(self.reactions))
         return errs
 
     def delete_chemical(self, formula: str) -> list[str]:
@@ -328,8 +450,7 @@ class KnowledgeBase:
         if used:
             return [f"Không xóa được: {formula} đang được dùng trong "
                     f"{', '.join(r.id for r in used)}. Hãy xóa các phản ứng đó trước."]
-        self.chemicals.pop(formula, None)
-        self.save()
+        self._publish({f: c for f, c in self.chemicals.items() if f != formula}, list(self.reactions))
         return []
 
     # ----- kiểm tra tính nhất quán
@@ -349,6 +470,10 @@ class KnowledgeBase:
 
         level: 'Lỗi' (phải sửa) | 'Cảnh báo' | 'Thông tin'
         """
+        errors = self.ensure_valid()
+        if errors:
+            return [{"level": "Lỗi", "kind": "CSTT không hợp lệ", "target": "CSTT", "message": error}
+                    for error in errors]
         issues: list[dict] = []
 
         def add(level, kind, target, msg):

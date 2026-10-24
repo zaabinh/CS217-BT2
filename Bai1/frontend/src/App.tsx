@@ -37,10 +37,18 @@ export default function App({ solve = solveApi }: { solve?: typeof solveApi }) {
 
   const clearSelection = () => { setSelected(null); setSelectedStep(null); };
 
-  const onChange = (v: Variable, value: string) => {
-    setRaw((prev) => ({ ...prev, [v]: value }));
+  const invalidate = () => {
+    requestId.current++;
+    inFlight.current?.abort();
+    setLoading(false);
+    setError(null);
     if (result) setStale(true);
     clearSelection();
+  };
+
+  const onChange = (v: Variable, value: string) => {
+    invalidate();
+    setRaw((prev) => ({ ...prev, [v]: value }));
   };
 
   async function runSolve(mode: Mode) {
@@ -140,8 +148,8 @@ export default function App({ solve = solveApi }: { solve?: typeof solveApi }) {
               raw={raw} fields={fields} onChange={onChange}
               advancedOpen={advancedOpen} onAdvancedOpen={setAdvancedOpen}
               targets={targets}
-              onToggleTarget={(v) => setTargets((prev) => { const next = new Set(prev); if (!next.delete(v)) next.add(v); return next; })}
-              onTargets={(list) => setTargets(new Set(list))}
+              onToggleTarget={(v) => { invalidate(); setTargets((prev) => { const next = new Set(prev); if (!next.delete(v)) next.add(v); return next; }); }}
+              onTargets={(list) => { invalidate(); setTargets(new Set(list)); }}
               onExample={loadExample}
               onSolve={runSolve} loading={loading} hasInvalid={hasInvalid}
             />

@@ -8,13 +8,17 @@ Cho trước một tập phản ứng hóa học, hệ thống giải bài toán
 - **Cơ sở tri thức:** 82 chất và 94 phản ứng vô cơ, tất cả đã được kiểm tra cân bằng tự động.
 - **Giao diện:** web, viết bằng Streamlit, toàn bộ bằng tiếng Việt.
 
+**Báo cáo:** [PDF](<Báo cáo Bài 2.pdf>), [nguồn DOCX](<Báo cáo Bài 2.docx>), [chuẩn trình bày chung](../Tai_lieu_bao_cao/README.md). Báo cáo được đối chiếu mã nguồn và kiểm thử lại ngày 24/10/2026.
+
 ---
 
 ## 1. Cài đặt
 
-Yêu cầu **Python 3.10 trở lên**.
+Yêu cầu **Python 3.11 trở lên**. Dùng môi trường riêng cho từng bài:
 
 ```bash
+python -m venv .venv
+# Kích hoạt môi trường: Windows .venv\Scripts\activate; Linux/macOS source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
@@ -33,9 +37,14 @@ Cách dùng chi tiết xem trong **[docs/HUONG_DAN_SU_DUNG.md](docs/HUONG_DAN_SU
 ## 3. Chạy kiểm thử
 
 ```bash
-python -m pytest -v          # 30 bài kiểm thử: 15 test case + kiểm thử đơn vị
+python -m pip install -r requirements-dev.txt
+python -m pytest -v          # tình huống, validation, giới hạn tìm kiếm và giao diện Streamlit
 python src/testing.py        # chỉ chạy 15 test case, in kết quả từng mục kiểm tra
 ```
+
+Kết quả dùng `status`, `reason_code`, `diagnostics` và `stats`; `solvable` được giữ để tương thích và chỉ đúng khi đã có lời giải. `goal_reachable` cho biết mục tiêu có thuộc bao đóng hay chưa được kiểm tra. `missing` giữ nghĩa các mục tiêu ngoài bao đóng, nên có thể rỗng khi A* hết giới hạn mà chưa tìm ra đường đi. Trường hợp này trả `UNRESOLVED / SEARCH_LIMIT_REACHED`, không kết luận vô nghiệm.
+
+CSTT JSON được kiểm tra trước khi nạp/cập nhật; hệ số và chi phí phải là số nguyên dương, không ép boolean hay số thập phân. Giao diện cảnh báo khi thay đổi dữ kiện, mục tiêu, phương pháp, điều kiện hoặc phiên bản CSTT làm kết quả cũ không còn khớp.
 
 ## 4. Cấu trúc thư mục
 

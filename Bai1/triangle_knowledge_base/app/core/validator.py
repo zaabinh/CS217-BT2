@@ -11,9 +11,10 @@ from ..models import SolveStatus, Variable
 class TriangleError(Exception):
     """A proven domain error or a contradiction, with a business status."""
 
-    def __init__(self, status: SolveStatus, message: str) -> None:
+    def __init__(self, status: SolveStatus, message: str, reason_code: str | None = None) -> None:
         super().__init__(message)
         self.status = status
+        self.reason_code = reason_code or ("INVALID_INPUT" if status == SolveStatus.INVALID else "CONFLICTING_FACTS")
 
 
 class TriangleValidator:
@@ -58,7 +59,7 @@ class TriangleValidator:
             x, y, z = sorted((a, b, c))
             # x > z-y avoids overflow in x+y and accepts strictly valid thin triangles.
             if x <= z-y:
-                raise TriangleError(SolveStatus.INVALID, "Triangle inequality violated (possibly degenerate)")
+                raise TriangleError(SolveStatus.INVALID, "Triangle inequality violated (possibly degenerate)", "INVALID_TRIANGLE")
             p = a/2+b/2+c/2
             if Variable.p in facts:
                 self.compare("Q02/R04", Variable.p, facts[Variable.p], p)
