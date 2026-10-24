@@ -24,7 +24,7 @@ import itertools
 import time
 from dataclasses import dataclass, field
 
-from knowledge_base import KnowledgeBase, Reaction
+from knowledge_base import CONDITION_LABELS, KnowledgeBase, Reaction
 
 METHODS = {
     "forward": "Suy diễn tiến",
@@ -60,6 +60,8 @@ class SolveResult:
     trace: list[str] = field(default_factory=list)
     stats: dict = field(default_factory=dict)
     raw_solution: list[Reaction] = field(default_factory=list)  # trước khi tối ưu
+    reason_code: str = ""
+    goal_reachable: bool | None = None
 
     @property
     def solution(self) -> list[Reaction]:
@@ -252,9 +254,10 @@ def astar_optimal(H, G, rules: list[Reaction], trace: list[str] | None = None,
             path.reverse()
             trace.append(f"Đạt mục tiêu sau khi xét {expanded} đỉnh. "
                          f"Tổng trọng số tối ưu w(S) = {g[N]}.")
-            return path, trace, {"expanded": expanded, "generated": len(g)}
+            return path, trace, {"expanded": expanded, "generated": len(g), "termination_reason": "GOALS_REACHED"}
         if expanded >= max_expand:
-            break
+            trace.append("Đạt giới hạn mở rộng; chưa tìm được đường đi, không kết luận vô nghiệm.")
+            return None, trace, {"expanded": expanded, "generated": len(g), "termination_reason": "SEARCH_LIMIT_REACHED"}
         for r in rules:                              # Bước 2.4: sinh các đỉnh kế
             if not applicable(r, N) or not produces_new(r, N):
                 continue
@@ -268,8 +271,8 @@ def astar_optimal(H, G, rules: list[Reaction], trace: list[str] | None = None,
                 hs = h(S)
                 if hs != float("inf"):
                     heapq.heappush(open_heap, (ng + hs, depth + 1, next(counter), S))
-    trace.append("Open rỗng (hoặc vượt giới hạn) → không tìm được lời giải.")
-    return None, trace, {"expanded": expanded, "generated": len(g)}
+    trace.append("Open rỗng → chưa tìm được lời giải.")
+    return None, trace, {"expanded": expanded, "generated": len(g), "termination_reason": "SEARCH_EXHAUSTED"}
 
 
 # --------------------------------------------------------------------------- suy diễn lùi
@@ -297,7 +300,7 @@ def backward_chaining(H, G, rules: list[Reaction], trace: list[str] | None = Non
     proved: set = set(H)
     failed: set = set()
     solution: list[Reaction] = []
-    counter = {"calls": 0}
+    counter = {"calls": 0, "depth_limit_hits": 0}
 
     def prove(x: str, stack: tuple, depth: int) -> tuple[bool, bool]:
         """Trả về (thành công, có cắt vòng lặp trong nhánh)"""
@@ -316,6 +319,7 @@ def backward_chaining(H, G, rules: list[Reaction], trace: list[str] | None = Non
             trace.append(f"{ind}• {x}: đang chứng minh ở mức trên → vòng lặp, bỏ nhánh")
             return False, True
         if depth > max_depth:
+            counter["depth_limit_hits"] += 1
             return False, True
         cyc = False
         cands = producers.get(x, [])
@@ -348,10 +352,11 @@ def backward_chaining(H, G, rules: list[Reaction], trace: list[str] | None = Non
         s, _ = prove(x, (), 0)
         all_ok &= s
         if not s:
-            trace.append(f"⇒ Không điều chế được {x}.")
+            trace.append(f"⇒ Chưa chứng minh được cách điều chế {x}.")
     if not all_ok or not is_solution(H, G, solution):
-        return None, trace, {"calls": counter["calls"]}
-    return solution, trace, {"calls": counter["calls"]}
+        return None, trace, {**counter, "termination_reason": "SEARCH_LIMIT_REACHED"
+                            if counter["depth_limit_hits"] else "SEARCH_EXHAUSTED"}
+    return solution, trace, {**counter, "termination_reason": "GOALS_REACHED"}
 
 
 # --------------------------------------------------------------------------- bổ sung giả thiết
@@ -416,40 +421,58 @@ def filter_rules(kb: KnowledgeBase, enabled_tags: set[str] | None) -> list[React
 
 
 def solve(kb: KnowledgeBase, H: list[str], G: list[str], method: str = "good",
-          enabled_tags: set[str] | None = None, suggest: bool = True) -> SolveResult:
-    res = SolveResult(method=method, H=list(H), G=list(G))
+          enabled_tags: set[str] | None = None, suggest: bool = True, *,
+          max_expand: int = 200_000, max_depth: int = 25) -> SolveResult:
+    res = SolveResult(method=method, H=list(H) if isinstance(H, (list, tuple)) else [],
+                      G=list(G) if isinstance(G, (list, tuple)) else [])
     t0 = time.perf_counter()
-    rules = filter_rules(kb, enabled_tags)
-    res.stats["rules_used"] = len(rules)
+
+    def finish(code: str, message: str) -> SolveResult:
+        res.reason_code, res.message = code, message
+        res.solvable = code in ("GOALS_REACHED", "GOALS_ALREADY_KNOWN")
+        res.stats.setdefault("rules_used", 0)
+        res.stats.update(termination_reason=code, steps=len(res.steps),
+                         time_ms=round((time.perf_counter() - t0) * 1000, 1))
+        return res
+
+    if (not isinstance(H, (list, tuple)) or not isinstance(G, (list, tuple))
+            or any(not isinstance(x, str) or not x.strip() for x in [*H, *G])):
+        return finish("INVALID_INPUT", "H và G phải là danh sách công thức chất.")
+    if (not isinstance(method, str) or method not in METHODS
+            or type(max_expand) is not int or max_expand < 1
+            or type(max_depth) is not int or max_depth < 0
+            or (enabled_tags is not None and (not isinstance(enabled_tags, (set, frozenset))
+                                             or not enabled_tags <= CONDITION_LABELS.keys()))):
+        return finish("INVALID_INPUT", "Phương pháp, điều kiện hoặc giới hạn tìm kiếm không hợp lệ.")
 
     # ----- xử lý dữ kiện thiếu
     if not H:
-        res.message = "Thiếu dữ kiện: chưa nhập chất ban đầu (giả thiết H)."
-        return res
+        return finish("INVALID_INPUT", "Thiếu dữ kiện: chưa nhập chất ban đầu (giả thiết H).")
     if not G:
-        res.message = "Thiếu dữ kiện: chưa nhập chất cần điều chế (mục tiêu G)."
-        return res
+        return finish("INVALID_INPUT", "Thiếu dữ kiện: chưa nhập chất cần điều chế (mục tiêu G).")
+    errors = kb.ensure_valid()
+    if errors:
+        res.stats["validation_errors"] = errors
+        return finish("INVALID_KNOWLEDGE_BASE", "CSTT không hợp lệ: " + "; ".join(errors))
     unknown = [x for x in list(H) + list(G) if x not in kb.chemicals]
     if unknown:
-        res.message = f"Dữ kiện không hợp lệ: {', '.join(unknown)} không có trong CSTT."
-        return res
+        return finish("INVALID_INPUT", f"Dữ kiện không hợp lệ: {', '.join(unknown)} không có trong CSTT.")
+    rules = filter_rules(kb, enabled_tags)
+    res.stats["rules_used"] = len(rules)
 
     # ----- Bài toán 1: tính giải được qua bao đóng
     res.closure, _ = closure(H, rules)
     res.missing = [x for x in G if x not in res.closure]
+    res.goal_reachable = not res.missing
     if set(G) <= set(H):
-        res.solvable = True
-        res.message = "Các chất cần điều chế đã có sẵn trong giả thiết → lời giải rỗng."
-        return res
+        return finish("GOALS_ALREADY_KNOWN", "Các chất cần điều chế đã có sẵn trong giả thiết → lời giải rỗng.")
     if res.missing:
-        res.message = ("Bài toán KHÔNG giải được với CSTT và điều kiện hiện tại: "
-                       f"không thể điều chế {', '.join(res.missing)}.")
         if suggest:
             res.suggestions = suggest_hypotheses(H, G, rules, list(kb.chemicals))
         res.trace.append(f"Closure(H) gồm {len(res.closure)} chất, không chứa "
                          f"{', '.join(res.missing)} → G ⊄ Closure(H).")
-        res.stats["time_ms"] = round((time.perf_counter() - t0) * 1000, 1)
-        return res
+        return finish("GOAL_NOT_IN_CLOSURE", "Bài toán KHÔNG giải được với CSTT và điều kiện hiện tại: "
+                      f"không thể điều chế {', '.join(res.missing)}.")
 
     # ----- Bài toán 2: tìm lời giải
     trace = res.trace
@@ -464,11 +487,11 @@ def solve(kb: KnowledgeBase, H: list[str], G: list[str], method: str = "good",
             seq = good_solution(H, G, seq, trace)
     elif method == "optimal":
         trace.append("— Thuật giải A* trên mạng suy diễn có trọng số —")
-        seq, _, st = astar_optimal(H, G, rules, trace)
+        seq, _, st = astar_optimal(H, G, rules, trace, max_expand=max_expand)
         res.stats.update(st)
     elif method == "backward":
         trace.append("— Suy diễn lùi —")
-        seq, _, st = backward_chaining(H, G, rules, trace)
+        seq, _, st = backward_chaining(H, G, rules, trace, max_depth=max_depth)
         res.stats.update(st)
         res.raw_solution = list(seq or [])
         if seq:
@@ -476,15 +499,10 @@ def solve(kb: KnowledgeBase, H: list[str], G: list[str], method: str = "good",
             if len(pruned) < len(seq):
                 trace.append(f"Rút gọn: bỏ {len(seq) - len(pruned)} phản ứng thừa.")
             seq = pruned
-    else:
-        raise ValueError(f"Phương pháp không hợp lệ: {method}")
-
     if not seq and seq != []:
-        res.message = "Không tìm được lời giải."
-        return res
+        reason = res.stats.get("termination_reason", "SEARCH_EXHAUSTED")
+        return finish(reason, "Chưa tìm được lời giải trong giới hạn tìm kiếm; mục tiêu thuộc bao đóng."
+                      if reason == "SEARCH_LIMIT_REACHED" else "Thuật toán chưa tìm được lời giải; mục tiêu thuộc bao đóng.")
     res.steps = analyze_solution(H, G, build_steps(H, seq))
-    res.solvable = True
-    res.message = (f"Tìm được lời giải gồm {len(res.steps)} phản ứng "
-                   f"(tổng trọng số {res.total_cost}).")
-    res.stats["time_ms"] = round((time.perf_counter() - t0) * 1000, 1)
-    return res
+    return finish("GOALS_REACHED", f"Tìm được lời giải gồm {len(res.steps)} phản ứng "
+                  f"(tổng trọng số {res.total_cost}).")
