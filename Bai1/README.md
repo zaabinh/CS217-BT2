@@ -1,6 +1,6 @@
 # Triangle Knowledge Base — Bài 1
 
-Hệ cơ sở tri thức tam giác bằng mạng tính toán **(M, F)**: đúng **13 biến, 10 nhóm Q01–Q10, 46 luật R01–R46** theo Phụ lục A của [báo cáo](<Báo cáo.pdf>). Suy diễn tiến tổng quát, kiểm tra dữ kiện và dấu vết giải thích. CLI và FastAPI cùng gọi `SolverService`.
+Hệ cơ sở tri thức tam giác bằng mạng tính toán **(M, F)**: đúng **13 biến, 10 nhóm Q01–Q10, 46 luật R01–R46** theo Phụ lục A của [báo cáo](<Báo cáo Bài 1.pdf>). Suy diễn tiến tổng quát, kiểm tra dữ kiện và dấu vết giải thích. CLI và FastAPI cùng gọi `SolverService`.
 
 ## Tính năng
 
@@ -222,8 +222,8 @@ npm run build               # kiểm tra TypeScript và build production
 
 ## Tài liệu
 
-- [Báo cáo bài tập](<Báo cáo.pdf>)
-- [Nguồn báo cáo DOCX](Bao_cao_Bai_1.docx), [chuẩn trình bày chung](../Tai_lieu_bao_cao/README.md)
+- [Báo cáo bài tập](<Báo cáo Bài 1.pdf>)
+- [Nguồn báo cáo DOCX](<Báo cáo Bài 1.docx>), [chuẩn trình bày chung](../Tai_lieu_bao_cao/README.md)
 - [Hướng dẫn sử dụng](docs/USER_GUIDE.md)
 - [Video demo](Demo/README.md)
 

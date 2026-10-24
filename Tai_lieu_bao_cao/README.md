@@ -4,8 +4,8 @@ Hai báo cáo có cùng hệ thống trình bày, giữ riêng nội dung chuyê
 
 | Bài | Bản đọc/in | Nguồn chỉnh sửa |
 |---|---|---|
-| Bài 1 — Tri thức tam giác | [PDF](<../Bai1/Báo cáo.pdf>) | [DOCX](../Bai1/Bao_cao_Bai_1.docx) |
-| Bài 2 — Điều chế hóa học | [PDF](../Bai2/Bao_cao_Bai_2.pdf) | [DOCX](../Bai2/Bao_cao_Bai_2.docx) |
+| Bài 1 — Tri thức tam giác | [PDF](<../Bai1/Báo cáo Bài 1.pdf>) | [DOCX](<../Bai1/Báo cáo Bài 1.docx>) |
+| Bài 2 — Điều chế hóa học | [PDF](<../Bai2/Báo cáo Bài 2.pdf>) | [DOCX](<../Bai2/Báo cáo Bài 2.docx>) |
 
 [Mẫu báo cáo DOCX](Mau_bao_cao_CS217.docx) cung cấp sẵn page setup và các style. Có thể dùng hai bản nguồn hoàn chỉnh làm mẫu cho bảng và trang bìa.
 
@@ -17,7 +17,7 @@ Hai báo cáo có cùng hệ thống trình bày, giữ riêng nội dung chuyê
 - Bảng: khung đơn đủ cạnh và đường kẻ trong, header đậm nền `D9D9D9`; lặp header khi sang trang, giữ từng hàng nguyên vẹn. Nội dung ô căn trái để đọc dữ liệu và công thức.
 - Bảng đánh số/chú thích phía trên; hình phía dưới; công thức có số bên phải. Mỗi loại dùng bộ đếm riêng `chương.số`; phần đầu dùng `0.số`, phụ lục dùng `A.số`, `B.số`.
 - Trích dẫn `[n]` đối chiếu danh mục cuối báo cáo; đường dẫn mã nguồn tính từ thư mục bài tương ứng. Tài liệu bài giảng kế thừa từ báo cáo cũ được phân biệt với mã nguồn đã trực tiếp đối chiếu.
-- Logo bìa dùng [PNG UIT](../Logo-DH-Cong-Nghe-Thong-Tin-UIT.png), chuyển định dạng từ ảnh WebP có sẵn, giữ nguyên hình ảnh. Logo và ảnh ứng dụng giữ màu gốc; chữ soạn trong báo cáo dùng màu đen.
+- Logo UIT đã được nhúng trực tiếp trong các bản nguồn DOCX và PDF. Logo và ảnh ứng dụng giữ màu gốc; chữ soạn trong báo cáo dùng màu đen.
 - Các phép toán tập hợp không có glyph trong bản Times New Roman cài tại máy được viết bằng từ tương đương để tránh Word thay font: “nằm trong”, “thuộc”, “hợp”, “trừ”. Ý nghĩa công thức được giữ nguyên.
 
 ## Cấu trúc

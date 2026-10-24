@@ -8,7 +8,7 @@ Cho trước một tập phản ứng hóa học, hệ thống giải bài toán
 - **Cơ sở tri thức:** 82 chất và 94 phản ứng vô cơ, tất cả đã được kiểm tra cân bằng tự động.
 - **Giao diện:** web, viết bằng Streamlit, toàn bộ bằng tiếng Việt.
 
-**Báo cáo:** [PDF](Bao_cao_Bai_2.pdf), [nguồn DOCX](Bao_cao_Bai_2.docx), [chuẩn trình bày chung](../Tai_lieu_bao_cao/README.md). Báo cáo được đối chiếu mã nguồn và kiểm thử lại ngày 24/10/2026.
+**Báo cáo:** [PDF](<Báo cáo Bài 2.pdf>), [nguồn DOCX](<Báo cáo Bài 2.docx>), [chuẩn trình bày chung](../Tai_lieu_bao_cao/README.md). Báo cáo được đối chiếu mã nguồn và kiểm thử lại ngày 24/10/2026.
 
 ---
 
