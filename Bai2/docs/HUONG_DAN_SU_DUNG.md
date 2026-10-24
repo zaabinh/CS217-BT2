@@ -166,6 +166,9 @@ Hệ thống kiểm tra dữ kiện trước khi suy diễn:
 - **Công thức sai:** ví dụ `XyZ` chứa ký hiệu nguyên tố không tồn tại → báo lỗi.
 - **Dữ kiện trùng:** tự bỏ và có ghi chú.
 
+- **Kết quả cũ:** khi đổi dữ kiện, mục tiêu, phương pháp, điều kiện hoặc CSTT, giao diện cảnh báo kết quả không còn khớp; cần giải lại.
+- **Chạm giới hạn tìm kiếm:** `UNRESOLVED / SEARCH_LIMIT_REACHED` nghĩa là thuật toán chưa tìm xong, dù mục tiêu có thể thuộc bao đóng; không kết luận vô nghiệm. `missing` có thể rỗng trong trường hợp này.
+
 ![Dữ kiện lỗi](images/11_du_kien_loi.png)
 
 ---
@@ -281,5 +284,7 @@ Danh sách test case:
 | TC14 | Nhập bằng tên tiếng Việt | Nhận đúng S, H2O, NaCl → H2SO4, NaOH |
 | TC15 | Tắt điện phân dung dịch (bài toán của đề) | Không điều chế được H2SO4, Na2SO4 |
 
-Có thể chạy kiểm thử bằng dòng lệnh: `python -m pytest -v`. Lệnh này chạy 30 bài kiểm thử, gồm các test case trên và các kiểm thử đơn vị. Kiểm thử đơn vị có so sánh kết quả A\* với tìm kiếm vét cạn để xác nhận A\* cho lời giải tối ưu.
+Có thể chạy kiểm thử bằng dòng lệnh: `python -m pytest -v`. Lần đối chiếu ngày 24/10/2026 có **76 kiểm thử đạt**, gồm 15 tình huống trên, kiểm thử công thức/thuật toán, validation CSTT, giới hạn tìm kiếm và giao diện Streamlit. Có đối chiếu A\* với tìm kiếm chi phí đều trên các mạng nhỏ. Chạy riêng bộ tình huống bằng `python -X utf8 src/testing.py`.
+
+[Ảnh lời giải hiện tại](images/19_ket_qua_hien_tai.png) được chụp trên ứng dụng local ngày 24/10/2026. Các ảnh 01–18 là tư liệu của phiên bản trước, dùng minh họa luồng thao tác; bố cục và thông báo có thể khác phiên bản hiện tại.
 
