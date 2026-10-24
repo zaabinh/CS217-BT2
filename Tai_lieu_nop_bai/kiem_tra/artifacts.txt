@@ -1,3 +1,0 @@
-Checked 107 local links in 16 Markdown files; 0 errors
-Excel: exact content, Times New Roman 13 black, thin borders, merged/rich-text titles, centered MSSV, wrap and A4: PASS
-No broken requirements found.
