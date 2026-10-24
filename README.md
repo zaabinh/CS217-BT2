@@ -22,7 +22,6 @@ CS217-BT2/
 ├── Bai1/                 # Backend, frontend, báo cáo PDF, tài liệu và Demo/
 ├── Bai2/                 # Mã Streamlit, CSTT JSON, tài liệu và kiểm thử
 ├── Bảng phân công công việc.xlsx
-├── scripts/              # Tạo lại Excel và kiểm tra liên kết tài liệu
 └── README.md
 ```
 
