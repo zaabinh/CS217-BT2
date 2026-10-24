@@ -13,6 +13,7 @@ Xây dựng cơ sở tri thức, biểu diễn các quan hệ trong miền bài 
 | Cài đặt và chạy local | [README Bài 1](Bai1/README.md) — Python 3.11+, Node.js 20+ | [README Bài 2](Bai2/README.md) — Python 3.11+ |
 | Hướng dẫn sử dụng | [Hướng dẫn giao diện](Bai1/docs/USER_GUIDE.md), [CLI/API](Bai1/README.md#cli) | [Hướng dẫn có ảnh](Bai2/docs/HUONG_DAN_SU_DUNG.md) |
 | Báo cáo và mô hình | [Báo cáo PDF](<Bai1/Báo cáo.pdf>), [Kiến trúc và suy luận](Bai1/README.md#kiến-trúc-và-suy-luận) | [Báo cáo PDF](Bai2/Bao_cao_Bai_2.pdf), [Danh mục tri thức](Bai2/docs/DANH_SACH_TRI_THUC.md), [Thuật toán](Bai2/README.md#6-thuật-toán) |
+| Nguồn báo cáo chỉnh sửa được | [DOCX Bài 1](Bai1/Bao_cao_Bai_1.docx) | [DOCX Bài 2](Bai2/Bao_cao_Bai_2.docx) |
 | Kiểm thử và demo | [Hướng dẫn kiểm thử](Bai1/README.md#kiểm-thử), [Test backend](Bai1/triangle_knowledge_base/tests/), [Demo trình duyệt](Bai1/Demo/) | [Test tự động](Bai2/tests/), [15 tình huống](Bai2/data/test_cases.json), [Video demo](Bai2/Demo_Bai2.mp4) |
 
 Giới hạn của từng mô hình được ghi trong README riêng; `UNRESOLVED` của Bài 1 không đồng nghĩa bài toán toán học vô nghiệm.
@@ -21,10 +22,13 @@ Giới hạn của từng mô hình được ghi trong README riêng; `UNRESOLVE
 CS217-BT2/
 ├── Bai1/                 # Backend, frontend, báo cáo PDF, tài liệu và Demo/
 ├── Bai2/                 # Mã Streamlit, CSTT JSON, tài liệu và kiểm thử
+├── Tai_lieu_bao_cao/      # Mẫu DOCX và quy chuẩn trình bày chung
 ├── Bảng phân công công việc.xlsx
 └── README.md
 ```
 
 **Tài liệu nộp bài:** [Bảng phân công công việc Excel](<Bảng phân công công việc.xlsx>).
+
+Hai báo cáo dùng chung [chuẩn trình bày và mẫu DOCX](Tai_lieu_bao_cao/README.md), đã đối chiếu mã nguồn và chạy lại kiểm thử ngày 24/10/2026. PDF là bản để đọc/in; DOCX là nguồn để chỉnh sửa.
 
 Chạy kiểm thử từ từng thư mục bài: Bài 1 dùng `python -m pytest -v` và các lệnh npm trong [hướng dẫn](Bai1/README.md#kiểm-thử); Bài 2 dùng `python -m pytest -v` hoặc `python src/testing.py`. Dùng môi trường Python riêng cho từng bài theo README tương ứng.
