@@ -2,7 +2,12 @@
 
 ## 1. Open the application
 
-You need two terminals, both starting from the `Bai1` folder.
+After the first-time setup in the [README](../README.md), run
+`./run_app.bat` on Windows or `bash run_app.sh` on Linux/macOS or Git Bash,
+from the `Bai1` folder. Open **http://127.0.0.1:5173** and press **Ctrl+C**
+in the terminal to stop both servers.
+
+Alternatively, use two terminals, both starting from the `Bai1` folder:
 
 **Terminal 1 — backend**
 

@@ -126,7 +126,21 @@ Có thể thêm `"trace_targets":["hc"]` vào request để nhận `relevant_tra
 
 ## Giao diện web
 
-Mở hai terminal tại `Bai1`:
+Sau khi cài dependencies, chạy tại `Bai1`:
+
+```powershell
+.\run_app.bat
+```
+
+Linux/macOS hoặc Git Bash:
+
+```bash
+bash run_app.sh
+```
+
+[run_app.bat](run_app.bat) và [run_app.sh](run_app.sh) ưu tiên Python trong `.venv`, gọi chung [run_app.py](run_app.py) để bật API và Vite. Mở http://127.0.0.1:5173; nhấn **Ctrl+C** để dừng cả hai. Script báo lỗi nếu thiếu dependencies hoặc cổng 8000/5173 đang bận; không tự cài thư viện.
+
+Có thể chạy thủ công bằng hai terminal tại `Bai1`:
 
 ```powershell
 # Terminal 1: backend
