@@ -1,6 +1,6 @@
 # Triangle Knowledge Base — Bài 1
 
-Hệ cơ sở tri thức tam giác bằng mạng tính toán **(M, F)**: đúng **13 biến, 10 nhóm Q01–Q10, 46 luật R01–R46** theo Phụ lục A của [báo cáo](Bao_cao_Bai_1.pdf). Suy diễn tiến tổng quát, kiểm tra dữ kiện và dấu vết giải thích. CLI và FastAPI cùng gọi `SolverService`.
+Hệ cơ sở tri thức tam giác bằng mạng tính toán **(M, F)**: đúng **13 biến, 10 nhóm Q01–Q10, 46 luật R01–R46** theo Phụ lục A của [báo cáo](<Báo cáo.pdf>). Suy diễn tiến tổng quát, kiểm tra dữ kiện và dấu vết giải thích. CLI và FastAPI cùng gọi `SolverService`.
 
 ## Tính năng
 
@@ -142,16 +142,9 @@ Xem [frontend/.env.example](frontend/.env.example). Không có bí mật nào c�
 | `VITE_API_BASE_URL` | rỗng | Gốc URL trình duyệt dùng để gọi API; rỗng = cùng origin, đi qua proxy |
 | `VITE_BACKEND_URL` | `http://127.0.0.1:8000` | Đích của proxy `/api` (dev/preview) |
 
-### Ảnh chụp màn hình
+### Demo
 
-[Video demo local và ảnh theo từng bước](Demo/README.md) ghi phiên trình duyệt thật: nhập dữ kiện, chọn mục tiêu, xem tam giác, kết quả và chuỗi suy luận. Chạy lại từ `frontend` bằng `npm run demo:record`.
-
-| | |
-|---|---|
-| ![Solved](docs/screenshots/desktop-solved.png) | ![Inference](docs/screenshots/desktop-inference.png) |
-| ![Invalid](docs/screenshots/desktop-invalid.png) | ![Mobile](docs/screenshots/mobile-solved.png) |
-
-Các ảnh khác: [desktop-initial](docs/screenshots/desktop-initial.png), [desktop-unresolved](docs/screenshots/desktop-unresolved.png), [tablet-layout](docs/screenshots/tablet-layout.png).
+[Video demo local](Demo/triangle-solver-demo.webm) ghi phiên trình duyệt thật: nhập dữ kiện, chọn mục tiêu, xem tam giác, kết quả và chuỗi suy luận. Xem [hướng dẫn ghi lại video](Demo/README.md).
 
 ## Kiến trúc và suy luận
 
@@ -172,28 +165,23 @@ Engine sao chép H, kiểm tra trước khi xét mục tiêu có sẵn, quét R0
 
 Validator kiểm tra miền, bất đẳng thức tam giác, góc, nửa chu vi, Heron kể cả khi H chưa có p, và các quan hệ đủ dữ kiện. `p` phải lớn hơn mỗi cạnh đã biết. So sánh bằng `abs_tol=1e-8, rel_tol=1e-7`. Cosin/Heron dùng dạng đại số tương đương ổn định số học (half-angle, atan2, Kahan), giữ nguyên hướng và đầu vào R14–R20. Không thêm luật arcsin.
 
-## Kiểm thử và bằng chứng
+## Kiểm thử
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -v
-.\.venv\Scripts\python.exe scripts/record_evidence.py
 .\.venv\Scripts\python.exe -m pip check
 ```
 
-Đã chạy **240 passed, 0 failed** trên Python 3.13.5. Gồm T01–T12; đối chiếu metadata từng luật với [bản chép độc lập phụ lục](triangle_knowledge_base/tests/report_rules.csv); thực thi từng luật trên hai tam giác; validation, số học gần biên, trace; CLI qua subprocess; HTTP schemas, kết quả API và OpenAPI. Có một cảnh báo deprecation từ Starlette TestClient về HTTPX trong môi trường hiện tại; không có lỗi kiểm thử.
+Bộ test gồm T01–T12; đối chiếu metadata từng luật với [bản chép độc lập phụ lục](triangle_knowledge_base/tests/report_rules.csv); thực thi từng luật trên hai tam giác; validation, số học gần biên, trace; CLI qua subprocess; HTTP schemas, kết quả API và OpenAPI. Log sinh khi chạy test không được lưu trong source.
 
 Frontend (từ `Bai1/frontend`):
 
 ```powershell
 npm test                    # unit + component (Vitest, RTL): 41 passed
 npm run test:integration    # gọi backend thật; cần uvicorn đang chạy ở :8000: 9 passed
-npm run test:e2e            # Playwright, tự khởi động backend và Vite nếu chưa chạy: 13 passed
-npm run screenshots         # chụp lại docs/screenshots/
+npm run test:e2e            # 10 test chức năng Playwright; tự khởi động backend và Vite
+npm run build               # kiểm tra TypeScript và build production
 ```
-
-Chi tiết: [docs/TEST_REPORT.md](docs/TEST_REPORT.md).
-
-[evidence](evidence/) chứa log Pytest, môi trường/phiên bản, kết quả số và trace T01–T12, bản ghi CLI T01/T04/T09/T11. `record_evidence.py` chạy lại test trước khi xuất kết quả. Xem [báo cáo bàn giao](docs/dev-docs/DELIVERY_REPORT.md) để đối chiếu thay đổi và cập nhật báo cáo học thuật.
 
 ## Cấu trúc thư mục
 
@@ -202,17 +190,16 @@ Chi tiết: [docs/TEST_REPORT.md](docs/TEST_REPORT.md).
 | `triangle_knowledge_base/app/` | Backend: models, knowledge (46 luật), core (engine, validator), services, api, cli |
 | `triangle_knowledge_base/tests/` | Kiểm thử backend |
 | `frontend/src/` | React app: `components/` (giao diện), `lib/` (API client, hình học, kiểm tra đầu vào) |
-| `frontend/e2e/` | Kiểm thử Playwright và script chụp màn hình |
-| `docs/` | Tài liệu giao diện và ảnh chụp |
-| `evidence/`, `scripts/` | Bằng chứng kiểm thử backend |
+| `frontend/e2e/` | Kiểm thử chức năng bằng Playwright |
+| `frontend/demo/` | Kịch bản ghi video demo, chạy riêng với bộ test |
+| `docs/` | Hướng dẫn sử dụng giao diện |
+| `Demo/` | Video demo và hướng dẫn ghi lại |
 
 ## Tài liệu
 
-- [UI/UX specification](docs/UI_UX_SPECIFICATION.md)
-- [User guide](docs/USER_GUIDE.md)
-- [Implementation summary](docs/IMPLEMENTATION_SUMMARY.md)
-- [Test report](docs/TEST_REPORT.md)
-- [Delivery checklist](docs/DELIVERY.md)
+- [Báo cáo bài tập](<Báo cáo.pdf>)
+- [Hướng dẫn sử dụng](docs/USER_GUIDE.md)
+- [Video demo](Demo/README.md)
 
 ## Giới hạn
 

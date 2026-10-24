@@ -2,9 +2,9 @@
 
 **Môn:** Các hệ cơ sở tri thức · **Giảng viên:** PGS.TS Nguyễn Đình Hiển · **Ngày:** 24/10/2026.
 
-- [Phân công công việc Excel](Bang_phan_cong_cong_viec.xlsx): bốn thành viên theo thông tin được cung cấp; không tự thêm số nhóm.
+- [Phân công công việc Excel](<../Bảng phân công công việc.xlsx>): bốn thành viên theo thông tin được cung cấp; không tự thêm số nhóm.
 - [Bài 1](../Bai1/README.md): mã Python/FastAPI và React, báo cáo PDF, tài liệu, kiểm thử và [video demo trình duyệt](../Bai1/Demo/README.md).
-- [Bài 2](../Bai2/README.md): mã Streamlit, CSTT JSON, kiểm thử và hướng dẫn. Chưa có báo cáo PDF/Word riêng trong repository tại thời điểm kiểm tra.
+- [Bài 2](../Bai2/README.md): mã Streamlit, CSTT JSON, kiểm thử và hướng dẫn; [báo cáo PDF](../Bai2/Bao_cao_Bai_2.pdf) và [video demo](../Bai2/Demo_Bai2.mp4) đã được bổ sung sau phiên bàn giao ban đầu.
 
 ## Quy trình Git
 
@@ -56,6 +56,6 @@ Kiểm tra liên kết chỉ xác minh file/thư mục và heading Markdown loca
 
 ## Demo và giới hạn bàn giao
 
-[Video Bài 1](../Bai1/Demo/triangle-solver-demo.webm) dài **87,16 giây**, Chromium thật 1440×1000, VP9/WebM, không âm thanh. [Bảy ảnh](../Bai1/Demo/README.md) được chụp từ cùng phiên chạy; [metadata và response API](../Bai1/Demo/recording.json) ghi dữ kiện, kết quả và mốc thao tác. Đã xem kiểm tra ảnh kết quả và trace. Đây là ghi viewport trình duyệt headless, không phải quay toàn bộ desktop. Trong sandbox Windows, teardown lần ghi demo cần dừng đúng local server bằng quyền tiến trình cao hơn; nội dung video đã được ghi đầy đủ và kịch bản trả kết quả đạt.
+[Video Bài 1](../Bai1/Demo/triangle-solver-demo.webm) dài **87,16 giây**, Chromium thật 1440×1000, VP9/WebM, không âm thanh. Đây là ghi viewport trình duyệt headless, không phải quay toàn bộ desktop. Ảnh và metadata phụ trợ của phiên ghi đã được dọn; giữ video và [hướng dẫn ghi lại](../Bai1/Demo/README.md). Các số liệu kiểm thử ở trên ghi nhận phiên bàn giao trước khi dọn ba test chỉ dùng để chụp ảnh; test chức năng vẫn được giữ nguyên.
 
-Không tạo bổ sung báo cáo học thuật Bài 2 khi chưa có bản của nhóm. Master chứa đầy đủ các sản phẩm hiện có của hai bài; phần thiếu báo cáo riêng Bài 2 được ghi rõ để nhóm bổ sung trước khi nộp nếu giảng viên yêu cầu.
+Các báo cáo học thuật của hai bài được liên kết trong README chính. Tài liệu này giữ lịch sử kiểm tra bàn giao; hướng dẫn và cấu trúc Bài 1 hiện tại được cập nhật tại [README Bài 1](../Bai1/README.md).

@@ -20,7 +20,6 @@ npm run dev
 
 Then open **http://127.0.0.1:5173**. The first-time setup is in the [README](../README.md).
 
-![Initial screen](screenshots/desktop-initial.png)
 
 ## 2. Enter what you know
 
@@ -56,7 +55,6 @@ Nothing is calculated while you type. You always press a button.
 - Values are rounded to 4 decimals for display only. Calculations use full precision.
 - **Intermediate values also derived** lists values the solver found along the way.
 
-![Solved 3-4-5 triangle](screenshots/desktop-solved.png)
 
 ## 6. See how a value was derived
 
@@ -69,7 +67,6 @@ Nothing is calculated while you type. You always press a button.
 - Click a result item to see only the steps that value depends on. Switch to **Full trace** to see the complete inference sequence.
 - Click a step to highlight it. Its output is highlighted on the triangle, with its inputs in a lighter blue.
 
-![Solution steps](screenshots/desktop-inference.png)
 
 ## 7. Explore the triangle
 
@@ -115,6 +112,3 @@ Loading an example fills the fields and targets but does not solve. Press **Solv
 | **Inconsistent** | Each value is fine alone, but they contradict each other. The box names the rule, e.g. "Q05/R20 Heron: S=7, expected 6". | Remove or correct one of the conflicting values |
 | **Inputs changed** banner | Results belong to earlier inputs | Solve again |
 | "Cannot reach the solver backend" | The FastAPI server is not running | Start it, then press **Retry** |
-
-![Invalid triangle](screenshots/desktop-invalid.png)
-![Unresolved](screenshots/desktop-unresolved.png)

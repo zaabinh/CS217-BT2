@@ -8,7 +8,7 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.worksheet.page import PageMargins
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "Tai_lieu_nop_bai" / "Bang_phan_cong_cong_viec.xlsx"
+OUTPUT = ROOT / "Bảng phân công công việc.xlsx"
 MEMBERS = [
     ("Đoàn Hữu Gia Bình", "24520192", "Lập trình, kiểm thử và hoàn thiện Bài 1"),
     ("Nguyễn Thái Bảo", "24520173", "Xây dựng tài liệu và báo cáo Bài 1"),

@@ -10,7 +10,6 @@
     "test": "vitest run",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:e2e": "playwright test",
-    "screenshots": "playwright test screenshots",
     "demo:record": "playwright test --config playwright.demo.config.ts"
   },
   "dependencies": {
