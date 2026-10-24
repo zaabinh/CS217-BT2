@@ -202,7 +202,7 @@ Bộ test gồm T01–T12; đối chiếu metadata từng luật với [bản ch
 Frontend (từ `Bai1/frontend`):
 
 ```powershell
-npm test                    # unit + component (Vitest, RTL): 41 passed
+npm test                    # unit + component (Vitest, RTL): 44 passed
 npm run test:integration    # gọi backend thật; cần uvicorn đang chạy ở :8000: 9 passed
 npm run test:e2e            # 10 test chức năng Playwright; tự khởi động backend và Vite
 npm run build               # kiểm tra TypeScript và build production
@@ -223,6 +223,7 @@ npm run build               # kiểm tra TypeScript và build production
 ## Tài liệu
 
 - [Báo cáo bài tập](<Báo cáo.pdf>)
+- [Nguồn báo cáo DOCX](Bao_cao_Bai_1.docx), [chuẩn trình bày chung](../Tai_lieu_bao_cao/README.md)
 - [Hướng dẫn sử dụng](docs/USER_GUIDE.md)
 - [Video demo](Demo/README.md)
 
